@@ -41,6 +41,9 @@ class Car:
         self.fee = (self.total_hr / 2)* 5
         print(f"Total Fee: RM{self.fee:.2f}")
 
+    def set_car_plate(self, car_plate):
+        self.car_plate = car_plate
+
 car1 = Car("ABC123",current_date_time, random.choice(slot_list), future_time)
 time.sleep(2)
 car1.show_time_out()
