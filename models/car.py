@@ -14,29 +14,30 @@ def update_time():
     return now, now_display
 
 class Car:
-    def __init__(self, car_plate, time_in, slot_id, time_out) -> None:
+    def __init__(self, car_plate, enter_time, slot_id = None, exit_time = None, fee = None) -> None:
         self.car_plate = car_plate
-        self.time_in = time_in
+        self.enter_time = enter_time
         self.slot_id = slot_id
-        self.time_out = time_out
+        self.exit_time = exit_time
+        self.fee = None
 
-        self.time_in_display = time_in.strftime('%Y-%m-%d %H:%M:%S')
-        self.time_out_display = time_out.strftime('%Y-%m-%d %H:%M:%S')
+        self.enter_time_display = enter_time.strftime('%Y-%m-%d %H:%M:%S')
+        self.exit_time_display = None
         
         print(f"Car plate: {self.car_plate}.")
-        print(f"Time in: {self.time_in_display}.")
+        print(f"Time in: {self.enter_time_display}.")
         print(f"Parking slot: {self.slot_id}.")
-        print(f"Time out: {self.time_out_display}")    
+        print(f"Time out: {self.exit_time_display}")    
 
     def update_time_out(self):
-        self.time_out, self.time_out_display = update_time()
+        self.exit_time, self.exit_time_display = update_time()
     
     def show_time_out(self):
-        print(f"Time Out: {self.time_out_display}")
+        print(f"Time Out: {self.exit_time_display}")
 
     # fee/duration logic here
     def calculate_fee(self):
-        self.duration = self.time_out - self.time_in
+        self.duration = self.exit_time - self.enter_time
         self.total_hr = self.duration.total_seconds() / 3600
         self.fee = (self.total_hr / 2)* 5
         print(f"Total Fee: RM{self.fee:.2f}")
@@ -44,7 +45,13 @@ class Car:
     def set_car_plate(self, car_plate):
         self.car_plate = car_plate
 
-car1 = Car("ABC123",current_date_time, random.choice(slot_list), future_time)
-time.sleep(2)
-car1.show_time_out()
-car1.calculate_fee()
+    # change the format to dict to store into the .json format
+    def to_dict(self):
+        return {
+            "car_plate":    self.car_plate,
+            "slot_id":      self.slot_id,
+            "enter_time":   self.enter_time_display,
+            "exit_time":    self.exit_time_display,
+            "fee":          self.fee
+        }
+
