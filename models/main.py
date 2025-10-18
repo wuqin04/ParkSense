@@ -54,7 +54,14 @@ while True:
         # Combine all text in this frame
         combined_text = " ".join(extracted_texts).strip() if extracted_texts else None
         if combined_text:
-            recentresult.append(combined_text)
+            # Separate alphabets and numbers
+            letters = "".join(ch for ch in combined_text if ch.isalpha())
+            numbers = "".join(ch for ch in combined_text if ch.isdigit())
+
+            # Combine with letters first, numbers after
+            formatted_plate = letters + numbers
+
+            recentresult.append(formatted_plate)
 
         # Draw bounding boxes
         for (bbox, text, confidence) in results:
