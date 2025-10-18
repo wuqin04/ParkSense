@@ -4,16 +4,20 @@
 import cv2 as cv
 import easyocr
 import time
+from datetime import datetime, timedelta
 import json
+import os
 import socket
+from car import Car
+import database
 
 # Socket Setup
 MICROPYTHON_IP = "192.168.250.193"
-MICROPYTHON_PORT = 8888
+MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
 # TCP Client Setup
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(30)
+sock.settimeout(15)
 
 try:
     sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))
@@ -29,7 +33,6 @@ cap = cv.VideoCapture(0)
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 
-authorized_plates = ["JPQ300", "ABC1234", "ABC5678", "VCN4961", "PMM6175", "MDM7000"]
 confirmed_plates = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
@@ -79,6 +82,7 @@ while True:
 
     # analyze result
     if recentresult:
+        # get the most detected car plate as the result
         verify = max(set(recentresult), key=recentresult.count)
         frequency = recentresult.count(verify)
 
@@ -86,20 +90,37 @@ while True:
             confirmed_plates.append(verify)
             print(f"✅ Confirmed plate: {verify}")
 
-            # Prepare JSON data with formatting
-            data = {
-                "timestamp": time.time(),
-                "plate": verify,
-                "authorized": verify in authorized_plates
-            }
+            # handle database and .json format here
+            file_path = "data.json"
+            all_data = database.load_data(file_path)
 
-            json_data = json.dumps(data)
+            existing_car = next((c for c in all_data["cars"] if c["car_plate"] == verify), None)
 
-            # Save locally
-            with open("detections.json", "a") as f:
-                f.write(json_data + "\n")
 
-            # Send to MicroPython
+            now = datetime.now()
+            now_str = now.strftime('%Y-%m-%d %H:%M:%S')
+            
+            car = Car(verify, now)
+            car_data = car.to_dict()
+
+            found = False
+            for existing_car in all_data["cars"]:
+                if existing_car["car_plate"] == car_data["car_plate"]:
+                    existing_car.update(car_data)    
+                    found = True
+                    break
+
+            if not found:
+                all_data["cars"].append(car_data)
+
+            database.save_data(all_data, file_path)
+
+            print("✅ JSON updated:", json.dumps(car_data, indent=4))
+
+            # convert python data into json data
+            json_data = json.dumps(car_data)
+
+            # send to MicroPython
             if sock:
                 try:
                     sock.send((json_data + "\n").encode())
@@ -109,11 +130,6 @@ while True:
             else:
                 print("⚠️ No active socket connection.")
 
-            # Local feedback
-            if verify in authorized_plates:
-                print("🚘 Authorized → Gate open signal sent")
-            else:
-                print("⛔ Unauthorized → Access denied")
         else:
             print(f"Most frequent: {verify} ({frequency}/10)")
     else:
