@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: micropython-i2c-lcd
+Version: 0.1.1
+Summary: MicroPython package to control HD44780 LCD displays 1602 and 2004
+Home-page: https://github.com/brainelectronics/micropython-i2c-lcd
+Author: brainelectronics
+Author-email: info@brainelectronics.de
+License: MIT
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: summary
