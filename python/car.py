@@ -39,7 +39,7 @@ class Car:
     def calculate_fee(self):
         self.duration = self.exit_time - self.enter_time
         self.total_hr = self.duration.total_seconds() / 3600
-        self.fee = (self.total_hr / 2)* 5
+        self.fee = (self.total_hr / 2) * 5
         print(f"Total Fee: RM{self.fee:.2f}")
 
     def set_car_plate(self, car_plate):

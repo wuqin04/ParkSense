@@ -1,0 +1,11 @@
+{
+    "cars": [
+        {
+            "car_plate": "ABC1234",
+            "slot_id": null,
+            "enter_time": "2025-10-18 17:40:30",
+            "exit_time": null,
+            "fee": null
+        }
+    ]
+}
