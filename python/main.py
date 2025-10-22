@@ -12,7 +12,7 @@ from car import Car
 import database
 
 # Socket Setup
-MICROPYTHON_IP = "192.168.250.193"
+MICROPYTHON_IP = "10.38.61.193"
 MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
 # TCP Client Setup
