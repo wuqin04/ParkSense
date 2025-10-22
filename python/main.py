@@ -1,5 +1,5 @@
-# this program can only be run after the server is already setup from micropython
-# this is the client side of code
+# THIS IS THE CLIENT'S SIDE OF TCP SERVER WHICH WILL SEND DATA TO THE SERVER TCP
+# THIS PROGRAM SHOULD BE RUN AFTER THE SERVER SIDE OF CODE HAVE ALREADY RUNNING
 
 import cv2 as cv
 import easyocr
