@@ -23,19 +23,8 @@ class Ultrasonic:
         distance_cm = (duration / 2) / 29.1
         return distance_cm if self.unit == "cm" else distance_cm / 100
     
-    def run(self):
-        while True:
-            self.stable_count = 0
-            self.distance = self.measure()
-            self.raw_status = 1 if self.distance <= configs.DISTANCE_THRESHOLD else 0 
-
-            self.update_status(self.parking_slot)
-
-
-        # self.distance_list = [sensor.measure() for sensor in sensors]
-        # print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in self.distance_list])
-
-        # self.raw_status = [1 if d <= configs.DISTANCE_THRESHOLD else 0 for d in self.distance_list]
+    def execute(self):
+        print("Running ultrasonic here")
 
     def update_status(self, parking_slot): 
         self.stable_count = 0

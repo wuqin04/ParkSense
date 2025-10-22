@@ -1,4 +1,4 @@
-# THIS IS THE CLIENT'S SIDE OF TCP SERVER WHICH WILL SEND DATA TO THE SERVER TCP
+1# THIS IS THE CLIENT'S SIDE OF TCP SERVER WHICH WILL SEND DATA TO THE SERVER TCP
 # THIS PROGRAM SHOULD BE RUN AFTER THE SERVER SIDE OF CODE HAVE ALREADY RUNNING
 
 import cv2 as cv
@@ -17,7 +17,7 @@ MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
 # TCP Client Setup
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(1)
+sock.settimeout(15)
 
 try:
     sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))

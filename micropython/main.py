@@ -70,9 +70,9 @@ parking_slot_5 = Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_
 
 
 # Gate Setup
-entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot, configs.LCD_ENTRY_PIN
+entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot, configs.LCD_ENTRY_PIN,
                         configs.I2C_SCL_ENTRY_PIN, configs.I2C_SDA_ENTRY_PIN)
-exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot, configs.LCD_EXIT_PIN
+exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot, configs.LCD_EXIT_PIN,
                         configs.I2C_SCL_EXIT_PIN, configs.I2C_SDA_EXIT_PIN)
 
 
@@ -91,15 +91,6 @@ while True:
                 configs.Debug("Starting LCD Thread")
                 _thread.start_new_thread(entry_gate.lcd_idle_loop, ())
 
-                # parking logic
-                configs.Debug("Starting All 5 Ultrasonic Thread")
-                _thread.start_new_thread(parking_slot_1.run, ())
-                _thread.start_new_thread(parking_slot_2.run, ())
-                _thread.start_new_thread(parking_slot_3.run, ())
-                _thread.start_new_thread(parking_slot_4.run, ())
-                _thread.start_new_thread(parking_slot_5.run, ())
-
-
                 while True:
                     info = ujson.loads(data)
                     print(f"Received: {info}")
@@ -113,6 +104,11 @@ while True:
                     else:
                         fee = info.get("fee")
                         exit_gate.car_exit(plate, fee)
+
+                    while True:
+                        print("Enter the loop")
+                        print(parking_slot_1.measure())
+                        parking_slot_1.run()
 
                 # # === Parking Lot Setup ===
                 # Parking_lot = {1: 0}  # 1 slot (0 = empty, 1 = occupied)
@@ -210,7 +206,7 @@ while True:
                     # exit servo logic here
                                 
                 ## example below is to create response and format as .json
-                response = {"status": "authorized", "plate": plate}
+                # response = {"status": "authorized", "plate": plate}
                 
                 ## example below is to send the response created earlier to client's side
                 # conn.send(ujson.dumps(response).encode())
@@ -223,4 +219,5 @@ while True:
     finally:
         conn.close()
         print("Connection closed, waiting for next client...")
+
 
