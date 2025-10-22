@@ -9,6 +9,7 @@ class Ultrasonic:
         self.unit = unit
         self.timeout = timeout
 
+    # measure the distance in unit cm
     def measure(self):
         self.trig.low()
         time.sleep_us(2)
@@ -18,3 +19,4 @@ class Ultrasonic:
         duration = time_pulse_us(self.echo, 1, self.timeout)
         distance_cm = (duration / 2) / 29.1
         return distance_cm if self.unit == "cm" else distance_cm / 100
+
