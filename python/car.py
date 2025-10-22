@@ -19,37 +19,29 @@ class Car:
         self.enter_time = enter_time
         self.slot_id = slot_id
         self.exit_time = exit_time
-        self.fee = None
+        self.fee = 0
 
         self.enter_time_display = enter_time.strftime('%Y-%m-%d %H:%M:%S')
-        self.exit_time_display = None
-        
-        print(f"Car plate: {self.car_plate}.")
-        print(f"Time in: {self.enter_time_display}.")
-        print(f"Parking slot: {self.slot_id}.")
-        print(f"Time out: {self.exit_time_display}")    
+        self.exit_time_display = None   
 
-    def update_time_out(self):
+    def exit(self):
         self.exit_time, self.exit_time_display = update_time()
+        self.fee = self.calculate_fee()
     
-    def show_time_out(self):
+    def show_exit_time(self):
         print(f"Time Out: {self.exit_time_display}")
 
     # fee/duration logic here
     def calculate_fee(self):
-        self.duration = self.exit_time - self.enter_time
-        self.total_hr = self.duration.total_seconds() / 3600
-        self.fee = (self.total_hr / 2) * 5
-        print(f"Total Fee: RM{self.fee:.2f}")
-
-    def set_car_plate(self, car_plate):
-        self.car_plate = car_plate
+        duration = self.exit_time - self.enter_time
+        total_secs = duration.total_seconds()
+        return round(total_secs * 5 / 2)
 
     # change the format to dict to store into the .json format
     def to_dict(self):
         return {
             "car_plate":    self.car_plate,
-            "enter_time":   self.enter_time_display,
+            "entry_time":   self.enter_time_display,
             "exit_time":    self.exit_time_display,
             "fee":          self.fee
         }

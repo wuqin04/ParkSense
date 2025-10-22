@@ -37,12 +37,14 @@ confirmed_plates = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
 # main loop
+frame_count = 0
 while True:
     recentresult = []
 
-    # Capture 10 readings (~5 seconds)
-    for x in range(10):
+    # Capture 5 readings (~5 seconds)
+    for x in range(5):
         ret, frame = cap.read()
+
         if not ret:
             print("⚠️ Camera frame not captured.")
             break
@@ -103,7 +105,6 @@ while True:
 
             existing_car = next((c for c in all_data["cars"] if c["car_plate"] == verify), None)
 
-
             now = datetime.now()
             now_str = now.strftime('%Y-%m-%d %H:%M:%S')
             
@@ -112,11 +113,8 @@ while True:
 
             found = False
             
-            # TIME_OUT UPDATE HERE
             for existing_car in all_data["cars"]:
                 if existing_car["car_plate"] == car_data["car_plate"]:
-                    car.update_time_out()
-                    car.calculate_fee()
                     existing_car.update(car_data)    
                     found = True
                     break
@@ -141,8 +139,44 @@ while True:
             else:
                 print("⚠️ No active socket connection.")
 
-        else:
-            print(f"Most frequent: {verify} ({frequency}/10)")
+        elif frequency >= 5 and verify in confirmed_plates:
+            # handle json data here
+            file_path = "data.json"
+            all_data = database.load_data(file_path)
+
+            existing_car = next((c for c in all_data["cars"] if c["car_plate"] == verify), None)
+
+            now = datetime.now()
+            now_str = now.strftime('%Y-%m-%d %H:%M:%S')
+
+            if existing_car:
+                entry_time = datetime.strptime(existing_car["entry_time"], "%Y-%m-%d %H:%M:%S")
+                car = Car(existing_car["car_plate"], entry_time)
+
+                car.exit()
+
+                updated_data = car.to_dict()
+                existing_car.update(updated_data)
+
+                database.save_data(all_data, file_path)
+
+                confirmed_plates.remove(verify)
+
+                exit_data = updated_data.copy()
+                print("✅ JSON updated:", json.dumps(exit_data, indent=4))
+
+                json_data = json.dumps(exit_data)
+
+                if sock:
+                    try:
+                        sock.send((json_data + "\n").encode())
+                        print("📤 Sent to MicroPython:", json_data)
+                    except Exception as e:
+                        print(f"Failed to send the exit event {e}")
+                else:
+                    print("No active socket connection to send exit event.")
+            else:
+                print("Warning! Car not found in JSON.")
     else:
         print("⚠️ No text detected in last 10 frames.")
 

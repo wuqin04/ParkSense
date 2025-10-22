@@ -114,9 +114,6 @@ while True:
                         fee = info.get("fee")
                         exit_gate.car_exit(plate, fee)
 
-
-                    
-
                 # # === Parking Lot Setup ===
                 # Parking_lot = {1: 0}  # 1 slot (0 = empty, 1 = occupied)
                 # stable_count = [0]
