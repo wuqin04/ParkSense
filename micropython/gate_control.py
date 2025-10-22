@@ -6,11 +6,12 @@ import time
 import configs
 
 class Counter:
-    def __init__(self, AIR_pin, servo_pin, parking_lot, i2c_scl=27, i2c_sda=26): #change when needed
+    def __init__(self, AIR_pin, servo_pin, parking_lot, LCD_pin, i2c_scl=27, i2c_sda=26): #change when needed
         self.slot_sensors = parking_lot #get info from Parking_lot(line 167) to know each plot status
         self.num_plate = [] #for storing number plate purpose
         self.AIR_PIN = Pin(AIR_pin, Pin.IN)
         self.servo = Servo(pin_id=servo_pin)
+        self.LCD_pin = LCD_pin
         self.gate_open = False #False meaning close gate and vice versa
         self.lcd_busy = False #<--------initiate lcd_busy for lcd_idle_loop
 
@@ -19,7 +20,7 @@ class Counter:
         I2C_ADDR = 0x27
         NUM_ROWS = 2
         NUM_COLS = 16
-        i2c = I2C(1, scl=Pin(i2c_scl), sda=Pin(i2c_sda), freq=400000)
+        i2c = I2C(self.LCD_pin, scl=Pin(i2c_scl), sda=Pin(i2c_sda), freq=400000)
         self.lcd = LCD(addr=I2C_ADDR, cols=NUM_COLS, rows=NUM_ROWS, i2c=i2c)
         self.lcd.begin()#start lcd(light up)
 
@@ -147,99 +148,3 @@ class Counter:
                         self.display_lcd("Available slots:",f"--------{available_slots}-------")
             time.sleep(1)
 
-
-def run_ultrasonic():
-    global Sensors, parking_lot, initial_status, stable_count, last_change_time, distance_threshold, stable_limit, hold_time
-        
-    while True:
-        distance_list = [sensor.measure() for sensor in Sensors]
-        print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
-
-        raw_status = [1 if d <= distance_threshold else 0 for d in distance_list]
-
-        for i, key in enumerate(parking_lot.keys()):
-            if raw_status[i] != initial_status[i]:
-                stable_count[i] += 1
-                print(f"{key}: Unstable ({stable_count[i]}/{stable_limit})")
-
-                if stable_count[i] >= stable_limit:
-                    last_change_time[i] = time.time()
-
-                    if raw_status[i] - initial_status[i] == 1 and parking_lot[key] == 0:
-                        parking_lot[key] = 1
-                        print(f"{key}: 🚗 Car Parked")
-                    elif raw_status[i] - initial_status[i] == -1 and parking_lot[key] == 1:
-                        parking_lot[key] = 0
-                        print(f"{key}: 🏁 Car Left")
-
-                    initial_status[i] = raw_status[i]
-                    stable_count[i] = 0
-            else:
-                stable_count[i] = 0
-
-        print("🅿️ Parking Lot Status:", parking_lot)
-        print("Available slots:", list(parking_lot.values()).count(0))
-        print("-" * 50)
-        time.sleep(2)
-
-# Parking slot map: 0 = empty, 1 = occupied
-parking_lot = {
-        1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-        5: 0
-}
-
-initial_status = [0, 0, 0, 0, 0]
-distance_threshold = 15  # cm — below this = car detected
-stable_limit = 5 # number of consistent readings required
-hold_time = 5 # optional delay for confirming car left
-
-# 🔹 Per-slot counters
-stable_count = [0, 0, 0, 0, 0]
-last_change_time = [0, 0, 0, 0, 0]
-
-# Initialize sensors (change when needed)
-Sensors = [
-        Ultrasonic(17, 18),
-        Ultrasonic(16, 15),
-        Ultrasonic(14, 13),
-        Ultrasonic(12, 11),
-        Ultrasonic(10, 9)
-]
-
-# Initialize gate/IR/LCD system (change when needed)
-AIR_servo_sensors = Counter(AIR_pin=19, AIR_exit_pin=20, servo_pin=21, servo_exit_pin=22, parking_lot=parking_lot)
-
-# Main Program
-if __name__ == "__main__":
-    # Start ultrasonic monitor in background
-    try:
-        print("Starting ultrasonic monitoring in background...")
-        _thread.start_new_thread(run_ultrasonic, ())
-        
-    except Exception as e:
-        print("⚠️ Failed to start ultrasonic thread:", e)
-
-    # Simulate car entry while ultrasonic is running in background
-    try:
-        while True:
-            cmd = input("Enter 'in' or 'out' or 'showcars' or 'exit': ").strip().lower()
-            if cmd == 'in':
-                Plate = input("Enter plate number: ").strip().upper()
-                AIR_servo_sensors.car_entry(Plate)
-                AIR_servo_sensors.show_all_cars()
-
-            elif cmd == 'out':
-                Plate = input("Enter plate number: ").strip().upper()
-                AIR_servo_sensors.car_exit(Plate)
-                AIR_servo_sensors.show_all_cars()
-            elif cmd == 'exit':
-                print("Exiting program.")
-                break
-            else:
-                print("Invalid command. Please type 'in', 'out', or 'exit'.")
-                
-    except KeyboardInterrupt:
-        print("\n🛑 Program interrupted by user. Exiting safely.")

@@ -9,9 +9,9 @@ import sys
 from servo import Servo
 from lcd_i2c import LCD
 from ultrasonic import Ultrasonic
-from gate_control import Counter, parking_lot
+from gate_control import Counter
 from machine import I2C, Pin
-import micropython.configs as configs
+import configs as configs
 import _thread
 
 # Wi-Fi Setup
@@ -70,9 +70,9 @@ parking_slot_5 = Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_
 
 
 # Gate Setup
-entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot,
+entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot, configs.LCD_ENTRY_PIN
                         configs.I2C_SCL_ENTRY_PIN, configs.I2C_SDA_ENTRY_PIN)
-exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot,
+exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot, configs.LCD_EXIT_PIN
                         configs.I2C_SCL_EXIT_PIN, configs.I2C_SDA_EXIT_PIN)
 
 
@@ -223,3 +223,4 @@ while True:
     finally:
         conn.close()
         print("Connection closed, waiting for next client...")
+

@@ -6,9 +6,6 @@ TOTAL_SLOTS = 5
 
 # PIN SETUP
 # COUNTER PIN SETUP
-LCD_ENTRY_PIN 		= 0
-LCD_EXIT_PIN		= 1
-
 AIR_ENTRY_PIN       = 4
 AIR_EXIT_PIN        = 5
 
@@ -48,5 +45,3 @@ LED_PIN_5 = 22
 # DEBUG SETUP
 def Debug(msg):
     print(f"[DEBUGGER]: {msg}")
-
-
