@@ -49,7 +49,6 @@ class Car:
     def to_dict(self):
         return {
             "car_plate":    self.car_plate,
-            "slot_id":      self.slot_id,
             "enter_time":   self.enter_time_display,
             "exit_time":    self.exit_time_display,
             "fee":          self.fee

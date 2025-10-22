@@ -9,8 +9,9 @@ import sys
 from servo import Servo
 from lcd_i2c import LCD
 from ultrasonic import Ultrasonic
-from gate_control import Counter
+from gate_control import Counter, parking_lot
 from machine import I2C, Pin
+import micropython.configs as configs
 import _thread
 
 # Wi-Fi Setup
@@ -47,6 +48,34 @@ server.bind(("", PORT))
 server.listen(1)
 print(f"Listening on port {PORT}...")
 
+# Variables initialise
+# parking slot map: 0 = empty, 1 = occupied
+parking_lot = {
+        "A1": 0,
+        "A2": 0,
+        "A3": 0,
+        "A4": 0,
+        "A5": 0
+                }
+available_slots = 5
+nearest_slot = 1 # defaulting the nearest parking slot to the first parking slot
+
+# Ultrasonic Setup
+
+parking_slot_1 = Ultrasonic(configs.TRIG_PIN_1, configs.ECHO_PIN_1, configs.LED_PIN_1, parking_lot["A1"])
+parking_slot_2 = Ultrasonic(configs.TRIG_PIN_2, configs.ECHO_PIN_2, configs.LED_PIN_2, parking_lot["A2"])
+parking_slot_3 = Ultrasonic(configs.TRIG_PIN_3, configs.ECHO_PIN_3, configs.LED_PIN_3, parking_lot["A3"])
+parking_slot_4 = Ultrasonic(configs.TRIG_PIN_4, configs.ECHO_PIN_4, configs.LED_PIN_4, parking_lot["A4"])
+parking_slot_5 = Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_PIN_5, parking_lot["A5"])
+
+
+# Gate Setup
+entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot,
+                        configs.I2C_SCL_ENTRY_PIN, configs.I2C_SDA_ENTRY_PIN)
+exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot,
+                        configs.I2C_SCL_EXIT_PIN, configs.I2C_SDA_EXIT_PIN)
+
+
 while True:
     conn, addr = server.accept()
     print(f"Connection from {addr}")
@@ -59,15 +88,35 @@ while True:
                 break
 
             try:
-                info = ujson.loads(data)
-                print(f"Received: {info}")
+                configs.Debug("Starting LCD Thread")
+                _thread.start_new_thread(entry_gate.lcd_idle_loop, ())
 
-                plate = info.get("car_plate")
-                print("Opening gate.")
+                # parking logic
+                configs.Debug("Starting All 5 Ultrasonic Thread")
+                _thread.start_new_thread(parking_slot_1.run, ())
+                _thread.start_new_thread(parking_slot_2.run, ())
+                _thread.start_new_thread(parking_slot_3.run, ())
+                _thread.start_new_thread(parking_slot_4.run, ())
+                _thread.start_new_thread(parking_slot_5.run, ())
 
-                # Gate Controller
 
-                
+                while True:
+                    info = ujson.loads(data)
+                    print(f"Received: {info}")
+                    plate = info.get("car_plate")
+
+                    # entry_gate logic
+                    if plate not in entry_gate.num_plate:
+                        entry_gate.car_entry(plate)
+                        plate = None
+                    # exit_gate logic
+                    else:
+                        fee = info.get("fee")
+                        exit_gate.car_exit(plate, fee)
+
+
+                    
+
                 # # === Parking Lot Setup ===
                 # Parking_lot = {1: 0}  # 1 slot (0 = empty, 1 = occupied)
                 # stable_count = [0]
@@ -83,6 +132,7 @@ while True:
                 # available_slot = 1
                 # nearest_slot = 1  # default for single-slot setup
                 # total_slot = 1
+
                 # # === Hardware Setup ===
                 # Sensors = [Ultrasonic(trig_pin=20, echo_pin=21)]
                 # AIR = Pin(27, Pin.IN)  # IR sensor near gate
@@ -161,13 +211,9 @@ while True:
 #                         total_slot+=1
 
                     # exit servo logic here
-                    
-                    else:
-                        print("❌ Invalid input. Type 'enter' or 'exit'.")
-
                                 
                 ## example below is to create response and format as .json
-                # response = {"status": "authorized", "plate": plate}
+                response = {"status": "authorized", "plate": plate}
                 
                 ## example below is to send the response created earlier to client's side
                 # conn.send(ujson.dumps(response).encode())

@@ -3,18 +3,15 @@ from lcd_i2c import LCD
 from machine import I2C, Pin, time_pulse_us
 import _thread
 import time
+import configs
 
 class Counter:
-    def __init__(self, AIR_entry_pin, AIR_exit_pin, servo_entry_pin, servo_exit_pin, parking_lot, max_cars=5, i2c_scl=27, i2c_sda=26): #change when needed
+    def __init__(self, AIR_pin, servo_pin, parking_lot, i2c_scl=27, i2c_sda=26): #change when needed
         self.slot_sensors = parking_lot #get info from Parking_lot(line 167) to know each plot status
-        self.max_cars = max_cars #max car can enter parking slot is 5
         self.num_plate = [] #for storing number plate purpose
-        self.AIR_entry_pin = Pin(AIR_entry_pin, Pin.IN)
-        self.AIR_exit_pin = Pin(AIR_exit_pin, Pin.IN)
-        self.servo_entry = Servo(pin_id=servo_entry_pin)
-        self.servo_exit = Servo(pin_id=servo_exit_pin)
-        self.gate_entry_open = False #False meaning close gate and vice versa
-        self.gate_exit_open = False #False meaning close gate and vice versa
+        self.AIR_PIN = Pin(AIR_pin, Pin.IN)
+        self.servo = Servo(pin_id=servo_pin)
+        self.gate_open = False #False meaning close gate and vice versa
         self.lcd_busy = False #<--------initiate lcd_busy for lcd_idle_loop
 
 
@@ -26,39 +23,22 @@ class Counter:
         self.lcd = LCD(addr=I2C_ADDR, cols=NUM_COLS, rows=NUM_ROWS, i2c=i2c)
         self.lcd.begin()#start lcd(light up)
 
-    def AIR_entry_detected(self):
-        return self.AIR_entry_pin.value() == 1 #if 1 then return true(no detection), else false (have detection)
+    def AIR_detected(self):
+        return self.AIR_PIN.value() == 1 #if 1 then return true(no detection), else false (have detection)
     
-    def AIR_exit_detected(self):
-        return self.AIR_exit_pin.value() == 1 #if 1 then return true(no detection), else false (have detection)
-
-    def open_gate_entry(self):
+    def open_gate(self):
         print("Opening gate entry...")
         for angle in range(0, 91, 5):
-            self.servo_entry.write(angle)#opening gate from 0 to 90 degree with increment of 5
+            self.servo.write(angle)#opening gate from 0 to 90 degree with increment of 5
             time.sleep(0.03)
-        self.gate_entry_open = True #set value to open
+        self.gate_open = True #set value to open
 
-    def close_gate_entry(self):
+    def close_gate(self):
         print("Closing gate entry...")
         for angle in range(90, -1, -5):
-            self.servo_entry.write(angle)#closing gate from 90 to 0 degree with decrement of 5
+            self.servo.write(angle)#closing gate from 90 to 0 degree with decrement of 5
             time.sleep(0.03)
-        self.gate_entry_open = False #set value to close'
-
-    def open_gate_exit(self):
-        print("Opening gate exit...")
-        for angle in range(0, 91, 5):
-            self.servo_exit.write(angle)#opening gate from 0 to 90 degree with increment of 5
-            time.sleep(0.03)
-        self.gate_exit_open = True #set value to open
-
-    def close_gate_exit(self):
-        print("Closing gate exit...")
-        for angle in range(90, -1, -5):
-            self.servo_exit.write(angle)#closing gate from 90 to 0 degree with decrement of 5
-            time.sleep(0.03)
-        self.gate_exit_open = False #set value to close'
+        self.gate_open = False #set value to close'
     
     def display_lcd(self, line1="", line2=""): #lcd has two lines, use self.display_lcd(line 1, line 2(optional))
         self.lcd.clear()
@@ -94,20 +74,20 @@ class Counter:
         
         self.num_plate.append(plate)
 
-        self.open_gate_entry()
+        self.open_gate()
         print("Gate entry opened")
 
-        while self.AIR_entry_detected():
+        while self.AIR_detected():
             print('Waiting car to enter the gate entry')
             time.sleep(0.1)
 
-        while not self.AIR_entry_detected():
+        while not self.AIR_detected():
             print("Car detected! Waiting for it to leave entry...")
             time.sleep(0.1)
 
         time.sleep(1)
         print("Car left. Closing gate entry")
-        self.close_gate_entry()
+        self.close_gate()
         print("Gate entry closed.")
         time.sleep(1)
 
@@ -122,25 +102,27 @@ class Counter:
         for plate in self.num_plate:
             print(plate)
 
-    def car_exit(self, plate):
+    def car_exit(self, plate, fee):
         if plate in self.num_plate: #if plate scanned in the list, remove the plate from the list, open gate for car exit and close gate
             self.num_plate.remove(plate)
-            self.display_lcd("Goodbye", plate)
+            self.display_lcd("Total fee is ", f"RM{fee:.2f}")
+            time.sleep(3)
+            self.display_lcd("Goodbye ", plate)
             print(f"Car {plate} exited. Total cars: {self.car_count()}")
             
-            self.open_gate_exit()
+            self.open_gate()
             print("Gate exit opened")
 
-            while self.AIR_exit_detected(): #looping until AIR return value 0(car detected)
+            while self.AIR_detected(): #looping until AIR return value 0(car detected)
                 print('Waiting car to enter the gate exit')
                 time.sleep(0.1)
         
-            while not self.AIR_exit_detected(): #looping until AIR return value 1(no car detected)
+            while not self.AIR_detected(): #looping until AIR return value 1(no car detected)
                 print("Car detected! Waiting for it to leave exit...")
                 time.sleep(0.1)
 
             time.sleep(1)
-            self.close_gate_exit()
+            self.close_gate()
             print("Gate exit closed.")
             time.sleep(1)
             time.sleep(2)
@@ -155,7 +137,7 @@ class Counter:
     def lcd_idle_loop(self):
         while True:
             if not self.lcd_busy: #if lcd_busy return false then run the code below
-                    available_slots = self.max_cars - self.car_count()
+                    available_slots = configs.MAX_CAR - self.car_count()
 
                     if available_slots <= 0:
                         print("Parking full! Gate remains closed.")
@@ -167,7 +149,7 @@ class Counter:
 
 
 def run_ultrasonic():
-    global Sensors, Parking_lot, initial_status, stable_count, last_change_time, distance_threshold, stable_limit, hold_time
+    global Sensors, parking_lot, initial_status, stable_count, last_change_time, distance_threshold, stable_limit, hold_time
         
     while True:
         distance_list = [sensor.measure() for sensor in Sensors]
@@ -175,7 +157,7 @@ def run_ultrasonic():
 
         raw_status = [1 if d <= distance_threshold else 0 for d in distance_list]
 
-        for i, key in enumerate(Parking_lot.keys()):
+        for i, key in enumerate(parking_lot.keys()):
             if raw_status[i] != initial_status[i]:
                 stable_count[i] += 1
                 print(f"{key}: Unstable ({stable_count[i]}/{stable_limit})")
@@ -183,11 +165,11 @@ def run_ultrasonic():
                 if stable_count[i] >= stable_limit:
                     last_change_time[i] = time.time()
 
-                    if raw_status[i] - initial_status[i] == 1 and Parking_lot[key] == 0:
-                        Parking_lot[key] = 1
+                    if raw_status[i] - initial_status[i] == 1 and parking_lot[key] == 0:
+                        parking_lot[key] = 1
                         print(f"{key}: 🚗 Car Parked")
-                    elif raw_status[i] - initial_status[i] == -1 and Parking_lot[key] == 1:
-                        Parking_lot[key] = 0
+                    elif raw_status[i] - initial_status[i] == -1 and parking_lot[key] == 1:
+                        parking_lot[key] = 0
                         print(f"{key}: 🏁 Car Left")
 
                     initial_status[i] = raw_status[i]
@@ -195,13 +177,13 @@ def run_ultrasonic():
             else:
                 stable_count[i] = 0
 
-        print("🅿️ Parking Lot Status:", Parking_lot)
-        print("Available slots:", list(Parking_lot.values()).count(0))
+        print("🅿️ Parking Lot Status:", parking_lot)
+        print("Available slots:", list(parking_lot.values()).count(0))
         print("-" * 50)
         time.sleep(2)
 
 # Parking slot map: 0 = empty, 1 = occupied
-Parking_lot = {
+parking_lot = {
         1: 0,
         2: 0,
         3: 0,
@@ -228,7 +210,7 @@ Sensors = [
 ]
 
 # Initialize gate/IR/LCD system (change when needed)
-AIR_servo_sensors = Counter(AIR_entry_pin=19, AIR_exit_pin=20, servo_entry_pin=21, servo_exit_pin=22, parking_lot=Parking_lot)
+AIR_servo_sensors = Counter(AIR_pin=19, AIR_exit_pin=20, servo_pin=21, servo_exit_pin=22, parking_lot=parking_lot)
 
 # Main Program
 if __name__ == "__main__":

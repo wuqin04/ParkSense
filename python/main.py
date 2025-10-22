@@ -111,8 +111,12 @@ while True:
             car_data = car.to_dict()
 
             found = False
+            
+            # TIME_OUT UPDATE HERE
             for existing_car in all_data["cars"]:
                 if existing_car["car_plate"] == car_data["car_plate"]:
+                    car.update_time_out()
+                    car.calculate_fee()
                     existing_car.update(car_data)    
                     found = True
                     break
