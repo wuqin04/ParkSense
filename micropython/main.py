@@ -58,7 +58,7 @@ parking_lot = {
         "A5": 0
                 }
 available_slots = 5
-nearest_slot = 1 # defaulting the nearest parking slot to the first parking slot
+nearest_slot = "A1" # defaulting the nearest parking slot to the first parking slot
 
 # Ultrasonic Setup
 
