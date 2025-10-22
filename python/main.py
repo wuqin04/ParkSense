@@ -17,7 +17,7 @@ MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
 # TCP Client Setup
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(15)
+sock.settimeout(1)
 
 try:
     sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))
@@ -27,7 +27,7 @@ except Exception as e:
     sock = None
 
 # OCR + Cam Setup
-reader = easyocr.Reader(['en'], gpu=False)
+reader = easyocr.Reader(['en'], gpu=True)
 
 cap = cv.VideoCapture(0)
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 640)
@@ -70,7 +70,7 @@ while True:
             bottom_right = tuple(map(int, bottom_right))
             cv.rectangle(frame, top_left, bottom_right, (0, 255, 0), 2)
             cv.putText(frame, text, (top_left[0], top_left[1] - 10),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+            cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
         # Display detected text
         if combined_text:
