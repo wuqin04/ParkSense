@@ -73,7 +73,7 @@ class Counter:
             return
 
         nearest_slot = self.get_info_nearest_slot()
-        self.display_lcd("Welcome!", f"Nearest: Slot {nearest_slot}")
+        self.display_lcd(f"Welcome! {plate}", f"Nearest: Slot {nearest_slot}")
         print(f"Car {plate} eligible to enter. Nearest slot: {nearest_slot}")
         
         number_plates.append(plate)
@@ -128,8 +128,7 @@ class Counter:
             self.close_gate()
             print("Gate exit closed.")
             time.sleep(1)
-            time.sleep(2)
-            
+
         else: #if no plate found in the list, need to manually click enter form terminal
             self.display_lcd("Not Found", plate)
             print(f"Plate {plate} not found.")

@@ -139,6 +139,7 @@ while True:
                     print(plate)
                     fee = info.get("fee")
                     exit_gate.car_exit(plate, fee)
+                    entry_gate.show_availability()
 
     except OSError as e:
         print("Connection error:", e)
