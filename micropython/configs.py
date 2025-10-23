@@ -38,7 +38,7 @@ TRIG_PIN_5 = 12
 ECHO_PIN_5 = 13
 
 # ULTRASONIC CONFIGS
-INITIAL_STATUS      = 0
+INITIAL_STATUS      = [0, 0, 0, 0, 0]
 DISTANCE_THRESHOLD  = 15 # in cm
 STABLE_LIMIT        = 5
 
@@ -48,6 +48,9 @@ LED_PIN_2 = 9
 LED_PIN_3 = 8
 LED_PIN_4 = 7
 LED_PIN_5 = 22
+
+LED_ON  = 1
+LED_OFF = 0 
 
 # DEBUG SETUP
 def Debug(msg):

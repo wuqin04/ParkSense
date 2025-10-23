@@ -5,22 +5,22 @@ import _thread
 import time
 import configs
 
+number_plates = []
 class Counter:
-    def __init__(self, AIR_pin, servo_pin, parking_lot, LCD_pin, i2c_scl=27, i2c_sda=26): #change when needed
+    def __init__(self, AIR_pin, servo_pin, parking_lot, LCD_pin, i2c_scl, i2c_sda): #change when needed
         self.slot_sensors = parking_lot #get info from Parking_lot(line 167) to know each plot status
-        self.num_plate = [] #for storing number plate purpose
         self.AIR_PIN = Pin(AIR_pin, Pin.IN)
         self.servo = Servo(pin_id=servo_pin)
         self.LCD_pin = LCD_pin
         self.gate_open = False #False meaning close gate and vice versa
-        self.lcd_busy = False #<--------initiate lcd_busy for lcd_idle_loop
-
+        self.i2c_scl = i2c_scl
+        self.i2c_sda = i2c_sda
 
         # Setup LCD
         I2C_ADDR = 0x27
         NUM_ROWS = 2
         NUM_COLS = 16
-        i2c = I2C(self.LCD_pin, scl=Pin(i2c_scl), sda=Pin(i2c_sda), freq=400000)
+        i2c = I2C(self.LCD_pin, scl=Pin(self.i2c_scl), sda=Pin(self.i2c_sda), freq=400000)
         self.lcd = LCD(addr=I2C_ADDR, cols=NUM_COLS, rows=NUM_ROWS, i2c=i2c)
         self.lcd.begin()#start lcd(light up)
 
@@ -50,9 +50,14 @@ class Counter:
             self.lcd.print(line2)
 
     def car_allowed(self, plate): #if have duplicate car plate in car parking then return False(means not allow car to go in) and vice versa
-        if plate in self.num_plate:
+        if plate in number_plates:
             self.display_lcd("Duplicate Car", plate)
             print(f"Car {plate} already entered.")
+            return False
+        
+        if self.car_count() >= configs.MAX_CAR:
+            print(f"Car park is already full.")
+            self.display_lcd("No parking", "available!")
             return False
         return True
 
@@ -63,17 +68,15 @@ class Counter:
         return None #if fully occupied return none to car entry
 
     def car_entry(self, plate):
-        self.lcd_busy = True  # 👈 Pause background LCD updates
 
         if not self.car_allowed(plate):
-            self.lcd_busy = False  # 👈 Resume before exit
             return
 
         nearest_slot = self.get_info_nearest_slot()
         self.display_lcd("Welcome!", f"Nearest: Slot {nearest_slot}")
         print(f"Car {plate} eligible to enter. Nearest slot: {nearest_slot}")
         
-        self.num_plate.append(plate)
+        number_plates.append(plate)
 
         self.open_gate()
         print("Gate entry opened")
@@ -89,23 +92,22 @@ class Counter:
         time.sleep(1)
         print("Car left. Closing gate entry")
         self.close_gate()
+        self.show_availability()
         print("Gate entry closed.")
         time.sleep(1)
 
-        self.lcd_busy = False  # 👈 Resume background LCD updates here
-
 
     def car_count(self): #calc length of list and return num cars value
-        return len(self.num_plate)
+        return len(number_plates)
 
     def show_all_cars(self):#for debug purpose
         print("All detected plates:")
-        for plate in self.num_plate:
+        for plate in number_plates:
             print(plate)
 
     def car_exit(self, plate, fee):
-        if plate in self.num_plate: #if plate scanned in the list, remove the plate from the list, open gate for car exit and close gate
-            self.num_plate.remove(plate)
+        if plate in number_plates: #if plate scanned in the list, remove the plate from the list, open gate for car exit and close gate
+            number_plates.remove(plate)
             self.display_lcd("Total fee is ", f"RM{fee:.2f}")
             time.sleep(3)
             self.display_lcd("Goodbye ", plate)
@@ -135,16 +137,14 @@ class Counter:
             self.display_lcd("Please wait for", "help!")
             input("Press Enter to Continue...")
 
-    def lcd_idle_loop(self):
-        while True:
-            if not self.lcd_busy: #if lcd_busy return false then run the code below
-                    available_slots = configs.MAX_CAR - self.car_count()
+    def show_availability(self):
+        available_slots = configs.MAX_CAR - self.car_count()
 
-                    if available_slots <= 0:
-                        print("Parking full! Gate remains closed.")
-                        self.display_lcd("No parking", "available!")
-                    else:
-                        print(f"Available slots: {available_slots}")
-                        self.display_lcd("Available slots:",f"--------{available_slots}-------")
-            time.sleep(1)
+        if available_slots <= 0:
+            print("Parking full! Gate remains closed.")
+            self.display_lcd("No parking", "available!")
+        else:
+            print(f"Available slots: {available_slots}")
+            self.display_lcd("Available slots:",f"--------{available_slots}-------")
+        time.sleep(1)
 
