@@ -133,7 +133,7 @@ while True:
             if sock:
                 try:
                     sock.send((json_data + "\n").encode())
-                    print("📤 Sent to MicroPython:", json_data)
+                    print("📤 Sent to Server:", json_data)
                 except Exception as e:
                     print(f"⚠️ Failed to send: {e}")
             else:
@@ -170,7 +170,7 @@ while True:
                 if sock:
                     try:
                         sock.send((json_data + "\n").encode())
-                        print("📤 Sent to MicroPython:", json_data)
+                        print("📤 Sent to Server:", json_data)
                     except Exception as e:
                         print(f"Failed to send the exit event {e}")
                 else:
