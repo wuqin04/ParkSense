@@ -29,14 +29,14 @@ class Counter:
     
     def open_gate(self):
         print("Opening gate entry...")
-        for angle in range(0, 91, 5):
+        for angle in range(180, 91, -5):
             self.servo.write(angle)#opening gate from 0 to 90 degree with increment of 5
             time.sleep(0.03)
         self.gate_open = True #set value to open
 
     def close_gate(self):
         print("Closing gate entry...")
-        for angle in range(90, -1, -5):
+        for angle in range(90, 180, 5):
             self.servo.write(angle)#closing gate from 90 to 0 degree with decrement of 5
             time.sleep(0.03)
         self.gate_open = False #set value to close'

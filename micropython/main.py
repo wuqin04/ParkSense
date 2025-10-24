@@ -20,7 +20,7 @@ def run_ultrasonic():
 
     while True:
         distance_list = [parking_slot.measure() for parking_slot in parking_slots]
-        # print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
+        print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
 
         raw_status = [1 if d <= configs.DISTANCE_THRESHOLD else 0 for d in distance_list]
 
@@ -43,6 +43,7 @@ def run_ultrasonic():
                     stable_count[i] = 0
             else:
                 stable_count[i] = 0
+        time.sleep(0.5)
 
 # Wi-Fi Setup
 SSID = "Ming's"
@@ -82,10 +83,10 @@ print(f"Listening on port {PORT}...")
 # parking slot map: 0 = empty, 1 = occupied
 parking_lot = {
         "A1": 0,
-        "A2": 0,
-        "A3": 0,
-        "A4": 0,
-        "A5": 0
+        "B1": 0,
+        "C1": 0,
+        "D1": 0,
+        "E1": 0
                 }
 available_slots = 5
 nearest_slot = "A1" # defaulting the nearest parking slot to the first parking slot
@@ -93,11 +94,15 @@ nearest_slot = "A1" # defaulting the nearest parking slot to the first parking s
 # Ultrasonic Setup
 parking_slots = [
     Ultrasonic(configs.TRIG_PIN_1, configs.ECHO_PIN_1, configs.LED_PIN_1, parking_lot["A1"]),
-    Ultrasonic(configs.TRIG_PIN_2, configs.ECHO_PIN_2, configs.LED_PIN_2, parking_lot["A2"]),
-    Ultrasonic(configs.TRIG_PIN_3, configs.ECHO_PIN_3, configs.LED_PIN_3, parking_lot["A3"]),
-    Ultrasonic(configs.TRIG_PIN_4, configs.ECHO_PIN_4, configs.LED_PIN_4, parking_lot["A4"]),
-    Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_PIN_5, parking_lot["A5"])
+    Ultrasonic(configs.TRIG_PIN_2, configs.ECHO_PIN_2, configs.LED_PIN_2, parking_lot["B1"]),
+    Ultrasonic(configs.TRIG_PIN_3, configs.ECHO_PIN_3, configs.LED_PIN_3, parking_lot["C1"]),
+    Ultrasonic(configs.TRIG_PIN_4, configs.ECHO_PIN_4, configs.LED_PIN_4, parking_lot["D1"]),
+    Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_PIN_5, parking_lot["E1"])
 ]
+
+# initial the led to power on
+for parking_slot in parking_slots:
+    parking_slot.toggle_led(configs.LED_ON)
 
 # Gate Setup
 entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot,
