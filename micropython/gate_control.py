@@ -28,14 +28,14 @@ class Counter:
         return self.AIR_PIN.value() == 1 #if 1 then return true(no detection), else false (have detection)
     
     def open_gate(self):
-        print("Opening gate entry...")
+        print("Opening gate...")
         for angle in range(180, 91, -5):
             self.servo.write(angle)#opening gate from 0 to 90 degree with increment of 5
             time.sleep(0.03)
         self.gate_open = True #set value to open
 
     def close_gate(self):
-        print("Closing gate entry...")
+        print("Closing gate...")
         for angle in range(90, 180, 5):
             self.servo.write(angle)#closing gate from 90 to 0 degree with decrement of 5
             time.sleep(0.03)
@@ -73,7 +73,7 @@ class Counter:
             return
 
         nearest_slot = self.get_info_nearest_slot()
-        self.display_lcd(f"Welcome! {plate}", f"Nearest: Slot {nearest_slot}")
+        self.display_lcd(f"Welcome! {plate}", f"Nearest slot: {nearest_slot}")
         print(f"Car {plate} eligible to enter. Nearest slot: {nearest_slot}")
         
         number_plates.append(plate)

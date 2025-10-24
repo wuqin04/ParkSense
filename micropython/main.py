@@ -20,7 +20,7 @@ def run_ultrasonic():
 
     while True:
         distance_list = [parking_slot.measure() for parking_slot in parking_slots]
-        print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
+        # print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
 
         raw_status = [1 if d <= configs.DISTANCE_THRESHOLD else 0 for d in distance_list]
 
@@ -63,14 +63,14 @@ if not wlan.isconnected():
     for i in range(15):
         if wlan.isconnected():
             break
-        print(f"  Waiting... {i+1}/15")
+        print(f"  Waiting for connection... {i+1}/15")
         time.sleep(1)
 
 if wlan.isconnected():
     print("✅ Connected successfully!")
     print("Network config:", wlan.ifconfig())
 else:
-    print("❌ Failed to connect. Check SSID/password/band.")
+    print("❌ Failed to connect. Check SSID/password/band and try connecting again.")
     sys.exit()
 
 # TCP Server Setup
@@ -110,7 +110,7 @@ entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot
 exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot,
                     configs.LCD_EXIT_PIN, configs.I2C_SCL_EXIT_PIN, configs.I2C_SDA_EXIT_PIN)
 
-
+print("Starting ultrasonic thread...")
 _thread.start_new_thread(run_ultrasonic, ())
 while True:
     conn, addr = server.accept()
@@ -120,8 +120,6 @@ while True:
         while True:
             entry_gate.show_availability()
             
-            configs.Debug("Starting Ultrasonic Thread")
-
             while True:
                 data = conn.recv(1024)
                 if not data:
@@ -133,7 +131,7 @@ while True:
                     print(f"Invalid JSON received.")
                     continue
                 
-                print(f"Received: {info}")
+                print(f"Received data from connection: {info}")
                 plate = info.get("car_plate")
 
                 # entry_gate logic
@@ -151,5 +149,3 @@ while True:
     finally:
         conn.close()
         print("Connection closed, waiting for next client...")
-
-
