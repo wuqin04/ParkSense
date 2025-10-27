@@ -31,10 +31,7 @@ body {
 }
 
 /* ---------- BUTTONS ---------- */
-.button,
-.button2 {
-  margin-top: 2%;
-  margin-bottom: 2%;
+button {
   background-color: white;
   border: 0.2% solid black;
   color: black;
@@ -49,19 +46,24 @@ body {
   text-align: center;
 }
 
-.button {
-  margin-left: 30%;
-}
-
-.button2 {
-  margin-right: 30%;
-}
-
-.button:hover,
-.button2:hover {
+button:hover {
   background-color: rgb(169, 169, 169);
   transform: scale(1.1);
   box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
+}
+
+.user-button,
+.admin-button {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.user-button {
+  margin-left: 30%;
+}
+
+.admin-button {
+  margin-right: 30%;
 }
 
 /* ---------- FOOTER ---------- */
@@ -107,19 +109,19 @@ div {
 /* ---------- RESPONSIVE DESIGN ---------- */
 @media (max-width: 768px) {
   #theme {
-    font-size: 7vw;
+    font-size: 4vw;
   }
 
   #p {
-    font-size: 5vw;
+    font-size: 4vw;
   }
 
   #p2 {
-    font-size: 3.5vw;
+    font-size: 3vw;
   }
 
-  .button,
-  .button2 {
+  .admin-button,
+  .user-button {
     font-size: 3vw;
     padding: 3% 5%;
     margin-left: 0;
@@ -135,82 +137,9 @@ div {
   }
 
   .banner img {
-    height: 250px;
+    height: 100px;
     flex: 1 1 100%;
     max-width: 100%;
     border-radius: 8px;
   }
 }
-
-/* Even smaller screens */
-@media (max-width: 480px) {
-  #theme {
-    font-size: 7vw;
-  }
-
-  #p {
-    font-size: 4vw;
-  }
-
-  #p2 {
-    font-size: 3vw;
-  }
-
-  .button,
-  .button2 {
-    font-size: 4vw;
-    padding: 4% 6%;
-    width: 80%;
-  }
-
-  footer {
-    font-size: 4vw;
-    padding: 6vw;
-  }
-
-  .banner img {
-    height: 100px;
-  }
-}
-
-.user-button {
-  position: absolute;
-  top: 40%;
-  left: 30%;
-}
-
-.user-button:hover{
-  position: absolute;
-  top: 40%;
-  left: 29%;
-}
-
-.admin-button {
-  position: absolute;
-  top: 40%;
-  right: 29%;
-}
-
-.admin-button:hover{
-  position: absolute;
-  top: 40%;
-  right: 30%;
-}
-
-#img1 {
-    position: absolute;
-    top: 50%;
-    left: 0%
-  }
-
-#img2 {
-    position: absolute;
-    top: 50%;
-    left: 34%
-  }
-
-#img3 {
-    position: absolute;
-    top: 50%;
-    left:68%
-  }
