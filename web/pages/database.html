@@ -3,18 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../styles/styles.css">
+        <link rel="stylesheet" href="../styles/base.css">
         <link rel="stylesheet" href="../styles/database.css">
         <script src="../logic/backend.js"></script>
         <title>ParkSense Database</title>
     </head>
     <body onload="fetchData()">
         <h1 class="title">Database Centre</h1>
-        <p class="data" id="data">Fetching data...</p>
+        <p class="status" id="status"><strong>Status:</strong> Fetching data...</p>
 
-        <div>
+        <div class="database-container">
             <h2 class="parking-title"><u>Parking History</u></h2>
-
             <table class="database-table">
                 <thead>
                     <th>No</th> 
@@ -27,6 +26,9 @@
                     
                 </tbody>
             </table>
+            <div class="warning-container">
+                <p class="warning">current the database will not be refresh even if you update the .json file</p>    
+            </div>
         </div>
 
         <div class="wrapper">

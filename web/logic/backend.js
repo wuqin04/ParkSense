@@ -19,12 +19,12 @@ async function fetchData() {
         const response = await fetch("../../data.json");
         
         if (!response.ok) {
-            document.getElementById("data").innerHTML = "<strong>Status:</strong> The data was failed to fetch.";
+            document.getElementById("status").innerHTML = "<strong>Status:</strong> The data was failed to fetch.";
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         // successfully fetch the json data
-        document.getElementById("data").innerHTML = "<strong>Status:</strong> The data is fetched successfully."
+        document.getElementById("status").innerHTML = "<strong>Status:</strong> The data is fetched successfully."
         const rawJsonData = await response.json();
         console.log("Fetched data: ", rawJsonData);
 
