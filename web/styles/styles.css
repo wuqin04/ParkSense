@@ -1,0 +1,7 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+button:hover {
+    background-color: #808080;
+}
