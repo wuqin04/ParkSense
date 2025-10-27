@@ -1,118 +1,171 @@
+/* ---------- GENERAL ---------- */
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: "Franklin Gothic Medium", "Arial", sans-serif;
+}
+
+/* ---------- TEXT ---------- */
 #theme {
   color: #4A90E2;
-  font-size: 3vw;              /* changed from 50px for responsive text */
-  font-family: "Franklin Gothic Medium";
+  font-size: 3vw; /* responsive base size */
   text-align: center;
 }
 
 #p {
   color: #1E1E2F;
-  font-size: 2vw;              /* changed from 50px */
-  font-family: "Franklin Gothic Medium";
+  font-size: 2vw;
   text-align: center;
 }
 
 #p2 {
   color: #1E1E2F;
-  font-size: 1vw;              /* changed from 50px */
+  font-size: 1vw;
   font-family: "Arial";
   text-align: center;
 }
 
-.button {
-  position: absolute;
-  top: 40%;
-  left: 30%;
+/* ---------- BUTTONS ---------- */
+.button,
+.button2 {
+  margin-top: 2%;
+  margin-bottom: 2%;
   background-color: white;
-  border: 0.2% solid black;     /* changed from 2px */
-  color: black;
-  padding: 1% 2%;               /* roughly equal to 16px 32px */
-  text-decoration: none;
-  font-family: "Franklin Gothic Medium";
-  display: inline-block;
-  font-size: 1vw;               /* roughly equal to 16px */
-  transition-duration: 0.4s;
-  cursor: pointer;
-  justify-content:center;
-  align-items :center;
-  text-align:center;
-}
-
-.button:hover{
-position: absolute;
-  top: 40%;
-  left: 29%;
-  background-color: rgb(169, 169, 169);
   border: 0.2% solid black;
   color: black;
   padding: 1% 2%;
-  text-align: center;
   text-decoration: none;
   font-family: "Franklin Gothic Medium";
   display: inline-block;
   font-size: 1vw;
   transition-duration: 0.4s;
-  transform: scale(1.1); /* slightly enlarge */
-  box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
-  justify-content:center;
-  align-items :center;
-  text-align:center;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.button {
+  margin-left: 30%;
 }
 
 .button2 {
-    position: absolute;
-  top: 40%;
-  right: 29%;
-  background-color: white;
-  border: 0.2% solid black;     /* changed from 2px */
-  color: black;
-  padding: 1% 2%;               /* roughly equal to 16px 32px */
-  text-decoration: none;
-  font-family: "Franklin Gothic Medium";
-  display: inline-block;
-  font-size: 1vw;               /* roughly equal to 16px */
-  transition-duration: 0.4s;
-  cursor: pointer;
-  justify-content:center;
-  align-items :center;
-  text-align:center;
+  margin-right: 30%;
 }
 
-.button2:hover{
-    position: absolute;
-  top: 40%;
-  right: 30%;
+.button:hover,
+.button2:hover {
   background-color: rgb(169, 169, 169);
-  border: 0.2% solid black;
-  color: black;
-  padding: 1% 2%;
-  text-align: center;
-  text-decoration: none;
-  font-family: "Franklin Gothic Medium";
-  display: inline-block;
-  font-size: 1vw;
-  transition-duration: 0.4s;
-  transform: scale(1.1); /* slightly enlarge */
+  transform: scale(1.1);
   box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
-  justify-content:center;
-  align-items :center;
-  text-align:center;
 }
 
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 3vw;
+  height: auto;
+  background-color: black;
+  color: white;
+  font-size: 1vw;
+  margin-top: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+/* ---------- FLEX DIV CONTAINER ---------- */
+div {
+  display: flex;
+  justify-content: space-between;
+}
 
-#img1 {
-    position: absolute;
-    top: 50%;
-    left: 0%
+/* ---------- BANNER ---------- */
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
+
+.banner img {
+  height: 200px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  flex: 1 1 30%;
+  max-width: 33%;
+  transition: all 0.3s ease;
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 768px) {
+  #theme {
+    font-size: 7vw;
   }
-#img2 {
-    position: absolute;
-    top: 50%;
-    left: 34%
+
+  #p {
+    font-size: 5vw;
   }
-#img3 {
-    position: absolute;
-    top: 50%;
-    left:68%
+
+  #p2 {
+    font-size: 3.5vw;
   }
+
+  .button,
+  .button2 {
+    font-size: 3vw;
+    padding: 3% 5%;
+    margin-left: 0;
+    margin-right: 0;
+    display: block;
+    width: 60%;
+    margin: 3% auto;
+  }
+
+  footer {
+    font-size: 3vw;
+    padding: 5vw;
+  }
+
+  .banner img {
+    height: 250px;
+    flex: 1 1 100%;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+  #theme {
+    font-size: 7vw;
+  }
+
+  #p {
+    font-size: 4vw;
+  }
+
+  #p2 {
+    font-size: 3vw;
+  }
+
+  .button,
+  .button2 {
+    font-size: 4vw;
+    padding: 4% 6%;
+    width: 80%;
+  }
+
+  footer {
+    font-size: 4vw;
+    padding: 6vw;
+  }
+
+  .banner img {
+    height: 100px;
+  }
+}
