@@ -7,6 +7,10 @@ body {
 }
 
 /* ---------- TEXT ---------- */
+* {
+  font-family: "Franklin Gothic Medium";
+}
+
 #theme {
   color: #4A90E2;
   font-size: 3vw; /* responsive base size */
@@ -36,7 +40,6 @@ body {
   color: black;
   padding: 1% 2%;
   text-decoration: none;
-  font-family: "Franklin Gothic Medium";
   display: inline-block;
   font-size: 1vw;
   transition-duration: 0.4s;
@@ -169,3 +172,45 @@ div {
     height: 100px;
   }
 }
+
+.user-button {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+}
+
+.user-button:hover{
+  position: absolute;
+  top: 40%;
+  left: 29%;
+}
+
+.admin-button {
+  position: absolute;
+  top: 40%;
+  right: 29%;
+}
+
+.admin-button:hover{
+  position: absolute;
+  top: 40%;
+  right: 30%;
+}
+
+#img1 {
+    position: absolute;
+    top: 50%;
+    left: 0%
+  }
+
+#img2 {
+    position: absolute;
+    top: 50%;
+    left: 34%
+  }
+
+#img3 {
+    position: absolute;
+    top: 50%;
+    left:68%
+  }

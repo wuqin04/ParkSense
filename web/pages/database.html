@@ -5,36 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../styles/styles.css">
         <link rel="stylesheet" href="../styles/database.css">
-        <script src="../backend.js"></script>
+        <script src="../logic/backend.js"></script>
         <title>ParkSense Database</title>
     </head>
     <body onload="fetchData()">
         <h1 class="title">Database Centre</h1>
         <p class="data" id="data">Fetching data...</p>
 
-        <div class="database-table">
+        <div>
             <h2 class="parking-title"><u>Parking History</u></h2>
 
-            <table>
-                <tr>
+            <table class="database-table">
+                <thead>
                     <th>No</th> 
                     <th>Car Plate</th>
                     <th>Entry Time</th>
                     <th>Exit Time</th>
-                    <th>Fee</th>
-                </tr>
-                <tr>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>None</td>
-                </tr>
+                    <th>Fee (RM)</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
             </table>
         </div>
 
         <div class="wrapper">
-            <button onclick="adminPanel()" type="button" class="button">Back to Admin Panel</button>
+            <button class="back-button" onclick="goBack()" type="button" >Back to Admin Panel</button>
             <p class="warning">This button currently will only return back to main page.</p>
             <div class="logo">
                 <p>Admin</p>
