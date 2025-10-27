@@ -1,4 +1,6 @@
 html, body {
+    font-family: 'Courier New', Courier, monospace;
+    width: auto;
     height: 70%;
     margin: 0;
     padding: 0;

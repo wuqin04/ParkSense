@@ -4,8 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>ParkSense</title>
         <link rel="stylesheet" href="./styles/styles.css">
+        <script src="./logic/backend.js"></script>
+        <title>ParkSense</title>
     </head>
 
     <body>
@@ -17,8 +18,10 @@
         <p id="p2"> Using intelligent sensors and real-time monitoring, 
         it guides drivers directly to available spots, reducing stress and traffic congestion. </p>
         <p id="p2"> Experience a smoother way to park — simple, smart, and seamless with ParkSense.</p>
-        <button class="button">User</button>
-        <button class="button2">Admin</button>
+
+        <button class="user-button" onclick="userPanel()" type="button">User</button>
+        <button class="admin-button" onclick="adminPanel()" type="button">Admin</button>
+
         <img id="img1" src="./images/smart-parking.jpeg"width="500" height="333">
         <img id="img2" src="./images/parking2.jpg"width="500" height="333">
         <img id="img3" src="./images/parking3.webp"width="500" height="333">
