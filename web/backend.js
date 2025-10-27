@@ -1,33 +1,27 @@
-function get_data() {
-    fetch('data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('HTTP Error! status: ${response.status}');
-            }
-            return response.json();
-        })
+function databasePanel() {
+    window.location.href = './pages/database.html';
+}
 
-        .then(data => {
-            console.log(data);
+function adminPanel() {
+    window.location.href = '../index.html';
+}
 
-            const database_div = document.getElementById('database');
+async function fetchData() {
+    try {
+        const response = await fetch("../../data.json");
+        
+        if (!response.ok) {
+            document.getElementById("data").innerHTML = "<strong>Status:</strong> The data was failed to fetch.";
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // successfully fetch the json data
+        document.getElementById("data").innerHTML = "<strong>Status:</strong> The data is fetched successfully."
+        const data = await response.json();
+        console.log("Fetched data: ", data);
 
-            // Example: Displaying a specific property from the JSON data
-            // Assuming your JSON has a structure like: { "name": "John Doe", "age": 30 }
-            if (Array.isArray(data)) {
-                // If the JSON is an array, you can iterate and display each item
-                let htmlContent = '<ul>';
-                data.forEach(item => {
-                    htmlContent += `<li>${item.name} - ${item.description}</li>`; // Adjust based on your JSON structure
-                });
-                htmlContent += '</ul>';
-                database_div.innerHTML = htmlContent;
-            }
-        })
-
-        .catch(error => {
-            console.error('Error fetching or parsing JSON:', error);
-            const database_div = document.getElementById('database');
-            database_div.innerHTML = `<p style="color: red;">Failed to load data: ${error.message}</p>`;
-        });
+        // work with data here
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    }
 }
