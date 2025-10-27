@@ -1,0 +1,28 @@
+{
+    "cars": [
+        {
+            "car_plate": "ABC5678",
+            "entry_time": "2025-10-25 15:25:03",
+            "exit_time": "2025-10-25 15:27:29",
+            "fee": 1
+        },
+        {
+            "car_plate": "ABC1234",
+            "entry_time": "2025-10-25 15:25:38",
+            "exit_time": "2025-10-25 15:26:49",
+            "fee": 1
+        },
+        {
+            "car_plate": "MDM7000",
+            "entry_time": "2025-10-25 15:26:10",
+            "exit_time": null,
+            "fee": 0
+        },
+        {
+            "car_plate": "KEV5535",
+            "entry_time": "2025-10-25 15:28:04",
+            "exit_time": null,
+            "fee": 0
+        }
+    ]
+}

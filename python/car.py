@@ -35,7 +35,8 @@ class Car:
     def calculate_fee(self):
         duration = self.exit_time - self.enter_time
         total_secs = duration.total_seconds()
-        return round(total_secs * 5 / 2)
+        fee =  round(total_secs / 100)
+        return 20 if fee >= 20 else fee
 
     # change the format to dict to store into the .json format
     def to_dict(self):
