@@ -1,5 +1,120 @@
-body {
-    background-color: #7B4B3A;
-    color: #CFAF8D;
-    font-family: 'Courier New', Courier, monospace;
+#theme {
+  color: #4A90E2;
+  font-size: 3vw;              /* changed from 50px for responsive text */
+  font-family: "Franklin Gothic Medium";
+  text-align: center;
 }
+
+#p {
+  color: #1E1E2F;
+  font-size: 2vw;              /* changed from 50px */
+  font-family: "Franklin Gothic Medium";
+  text-align: center;
+}
+
+
+
+#p2 {
+  color: #1E1E2F;
+  font-size: 1vw;              /* changed from 50px */
+  font-family: "Arial";
+  text-align: center;
+}
+
+.button {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  background-color: white;
+  border: 0.2% solid black;     /* changed from 2px */
+  color: black;
+  padding: 1% 2%;               /* roughly equal to 16px 32px */
+  text-decoration: none;
+  font-family: "Franklin Gothic Medium";
+  display: inline-block;
+  font-size: 1vw;               /* roughly equal to 16px */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  justify-content:center;
+  align-items :center;
+  text-align:center;
+}
+
+.button:hover{
+position: absolute;
+  top: 40%;
+  left: 29%;
+  background-color: rgb(169, 169, 169);
+  border: 0.2% solid black;
+  color: black;
+  padding: 1% 2%;
+  text-align: center;
+  text-decoration: none;
+  font-family: "Franklin Gothic Medium";
+  display: inline-block;
+  font-size: 1vw;
+  transition-duration: 0.4s;
+  transform: scale(1.1); /* slightly enlarge */
+  box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
+  justify-content:center;
+  align-items :center;
+  text-align:center;
+}
+
+.button2 {
+    position: absolute;
+  top: 40%;
+  right: 29%;
+  background-color: white;
+  border: 0.2% solid black;     /* changed from 2px */
+  color: black;
+  padding: 1% 2%;               /* roughly equal to 16px 32px */
+  text-decoration: none;
+  font-family: "Franklin Gothic Medium";
+  display: inline-block;
+  font-size: 1vw;               /* roughly equal to 16px */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  justify-content:center;
+  align-items :center;
+  text-align:center;
+}
+
+.button2:hover{
+    position: absolute;
+  top: 40%;
+  right: 30%;
+  background-color: rgb(169, 169, 169);
+  border: 0.2% solid black;
+  color: black;
+  padding: 1% 2%;
+  text-align: center;
+  text-decoration: none;
+  font-family: "Franklin Gothic Medium";
+  display: inline-block;
+  font-size: 1vw;
+  transition-duration: 0.4s;
+  transform: scale(1.1); /* slightly enlarge */
+  box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
+  justify-content:center;
+  align-items :center;
+  text-align:center;
+}
+
+
+
+#img1 {
+    position: absolute;
+    top: 50%;
+    left: 0%
+  }
+#img2 {
+    position: absolute;
+    top: 50%;
+    left: 34%
+  }
+#img3 {
+    position: absolute;
+    top: 50%;
+    left:68%
+  }
