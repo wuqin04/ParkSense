@@ -48,7 +48,7 @@ async function fetchData() {
             exitTimeCell.textContent = car.exit_time;
 
             const feeCell = document.createElement("td");
-            feeCell.textContent = car.fee;
+            feeCell.textContent = car.fee ? parseFloat(car.fee).toFixed(2) : "0.00";
 
             row.appendChild(noCell);
             row.appendChild(plateCell);
