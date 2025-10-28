@@ -14,6 +14,10 @@ function adminPanel() {
     window.location.href = 'pages/admin.html';
 }
 
+function userPanel() {
+    window.location.href ='./pages/userpage2.html';
+}
+
 async function fetchData() {
     try {
         const response = await fetch("../../data.json");

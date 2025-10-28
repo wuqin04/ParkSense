@@ -123,9 +123,10 @@ div {
     margin-left: 0;
     margin-right: 0;
     display: block;
-    width: 60%;
-    margin: 3% auto;
-  }
+    width: 40%;
+    margin: 3% auto;}
+    
+  
 
   footer {
     font-size: 3vw;

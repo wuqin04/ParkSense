@@ -1,0 +1,171 @@
+/*Header*/
+.user-header {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.user-header .subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: "Franklin Gothic Medium", "Arial", sans-serif;
+}
+
+
+* {
+  font-family: "Franklin Gothic Medium";
+}
+
+#theme {
+  color: #2979ff;
+  font-size: 3.2vw;
+  text-align: center;
+  margin-top: 3vw;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(41, 121, 255, 0.25);
+}
+
+hr {
+  width: 100%;
+  height: 2px;
+  border: none;
+  background-color: #000;
+  margin: 1vw 0 2vw 0;
+}
+
+#p {
+  color: #1e1e2f;
+  font-size: 2vw;
+  text-align: center;
+  margin-bottom: 4vw;
+}
+
+
+
+/* ---------- BUTTONS ---------- */
+.button {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(26, 115, 232, 0.25);
+}
+
+.button:hover {
+  background-color: #1258b2;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(26, 115, 232, 0.35);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(26, 115, 232, 0.3);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;      /* centers buttons horizontally */
+  align-items: center;          /* vertically aligns them */
+  gap: 10vw;                    /* space between buttons */
+  flex-wrap: wrap;              /* allows wrapping on smaller screens */
+  margin: 2rem 0;               /* top and bottom margin */
+}
+
+/* ---------- FOOTER ---------- */
+f
+
+footer {
+  background: #6817179c;
+  border-top: 1px solid #d0d7de;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #333;
+  font-size: 1rem;
+  margin-top: 3rem;
+}
+
+footer p {
+  margin: 0.3rem 0;
+}
+
+footer .credits {
+  margin-top: 0.8rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.social-links a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-links a:hover {
+  color: #0d47a1;
+  transform: scale(1.05);
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 768px) {
+  #theme {
+    font-size: 6vw;
+    margin-top: 6vw;
+  }
+
+  #p {
+    font-size: 4.5vw;
+    margin-bottom: 6vw;
+  }
+
+  div {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  button {
+    width: 70%;
+    font-size: 3.5vw;
+    padding: 1rem 0;}
+
+  footer {
+    font-size: 3.5vw;
+    padding: 2rem 1rem;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .social-links {
+    gap: 0.7rem;
+  }
+
+}
