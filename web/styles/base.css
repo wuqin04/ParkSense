@@ -32,24 +32,20 @@ body {
 
 /* ---------- BUTTONS ---------- */
 button {
-  background-color: white;
-  border: 0.2% solid black;
-  color: black;
-  padding: 1% 2%;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1vw;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+    background-color: #1a73e8;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(26, 115, 232, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-  background-color: rgb(169, 169, 169);
-  transform: scale(1.1);
-  box-shadow: 0 0.4% 1% rgba(0, 0, 0, 0.2);
+    background-color: #155ab6;
+    transform: translateY(-2px);
 }
 
 .user-button,
