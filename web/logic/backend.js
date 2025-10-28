@@ -16,12 +16,14 @@ function userPanel() {
 
 function openGate() {
   const selectedGate = document.getElementById("gateSelector").value;
+  alert("Opening gate...");
   console.log(`Opening ${selectedGate} gate...`);
   // send command to micropython
 }
 
 function closeGate() {
   const selectedGate = document.getElementById("gateSelector").value;
+  alert("Closing gate...");
   console.log(`Closing ${selectedGate} gate...`);
   // send command to micropython
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <link rel="stylesheet" href="../styles/user_base.css" />
+  <link rel="stylesheet" href="../styles/user_panel.css" />
   <script src="../logic/backend.js"></script>
   <title>ParkSense</title>
 </head>
@@ -16,35 +16,33 @@
     <p class="subtitle">Your personal dashboard for smart parking control.</p>
   </header>
 
+  <!-- MAIN TITLE -->
+  <h2 id="theme">User Dashboard</h2>
+
   <!-- MAIN CONTENT -->
-  <div class="section">
+  <main class="section">
     <div class="item">
-      <button id="track" type="button">Track Your Current Fee</button>
-      <img src="../images/money.jpg" alt="Track Fee">
+      <img src="../images/user_panel/track.jpg" alt="Track Fee" class="card-image" />
+      <h3>Track Your Current Fee</h3>
+      <button id="track" type="button">Track Now</button>
     </div>
 
     <div class="item">
-      <button id="check" type="button">Check Occupancy Status</button>
-      <img src="../images/check2.jpg" alt="Check Status">
+      <img src="../images/user_panel/check.jpg" alt="Check Status" class="card-image" />
+      <h3>Check Occupancy Status</h3>
+      <button id="check" type="button">Check Now</button>
     </div>
 
     <div class="item">
-      <button id="home" type="button" onclick="homePage()">Home</button>
-      <img src="../images/home button.jpg" alt="Home Button">
+      <img src="../images/user_panel/home.jpg" alt="Home Button" class="card-image" />
+      <h3>Return Home</h3>
+      <button id="home" type="button" onclick="homePage()">Go Home</button>
     </div>
-  </div>
+  </main>
 
   <!-- FOOTER -->
   <footer>
     <p>© 2025 ParkSense System — User Interface v1.0</p>
-    <p><b>Created by:</b></p>
-    <div class="social-links">
-      <a href="https://www.instagram.com/kian.foo/" target="_blank">@kian.foo</a>
-      <a href="https://www.instagram.com/minggg.0102/" target="_blank">@minggg.0102</a>
-      <a href="https://www.instagram.com/wj_0419/" target="_blank">@wj_0419</a>
-      <a href="https://www.instagram.com/calvin_.05/" target="_blank">@calvin_.05</a>
-      <a href="https://www.instagram.com/yimingminyig/" target="_blank">@yimingminyig</a>
-    </div>
   </footer>
 </body>
 </html>
