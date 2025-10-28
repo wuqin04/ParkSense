@@ -11,7 +11,7 @@ function adminPanel() {
 }
 
 function userPanel() {
-    window.location.href ='./pages/userpage2.html';
+    window.location.href ='./pages/user_panel.html';
 }
 
 async function fetchData() {

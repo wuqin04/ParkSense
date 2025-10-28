@@ -60,7 +60,8 @@ hr {
 
 
 /* ---------- BUTTONS ---------- */
-.button {
+/* ---------- BUTTONS ---------- */
+button {
   background-color: #1a73e8;
   color: white;
   border: none;
@@ -70,40 +71,49 @@ hr {
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0 4px 10px rgba(26, 115, 232, 0.25);
+  flex: 1; /* ensures equal width for all buttons */
+  min-width: 200px; /* prevents buttons from shrinking too much */
+  text-align: center;
 }
 
-.button:hover {
+button:hover {
   background-color: #1258b2;
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(26, 115, 232, 0.35);
 }
 
-.button:active {
+button:active {
   transform: translateY(0);
   box-shadow: 0 3px 8px rgba(26, 115, 232, 0.3);
 }
 
-.button-container {
+/* ---------- BUTTON GROUP ---------- */
+.button-group {
   display: flex;
-  justify-content: center;      /* centers buttons horizontally */
-  align-items: center;          /* vertically aligns them */
-  gap: 10vw;                    /* space between buttons */
-  flex-wrap: wrap;              /* allows wrapping on smaller screens */
-  margin: 2rem 0;               /* top and bottom margin */
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  gap: 1.5rem;
+  margin-top: 8%;
+  flex-wrap: wrap; /* makes it responsive */
+}
+
+#track, #check, #home {
+  margin-top: 0; /* handled by .button-group now */
 }
 
 /* ---------- FOOTER ---------- */
-f
 
 footer {
-  background: #6817179c;
-  border-top: 1px solid #d0d7de;
-  padding: 2rem 1rem;
+  margin-top: 30%;
   text-align: center;
-  color: #333;
-  font-size: 1rem;
-  margin-top: 3rem;
+  padding: 2rem ;
+  font-size: 0.9rem;
+  color: #555;
+  background: #e9ecef;
+  border-top: 1px solid #d0d7de;
 }
+
 
 footer p {
   margin: 0.3rem 0;
