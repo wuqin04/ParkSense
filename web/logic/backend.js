@@ -6,10 +6,6 @@ function homePage() {
     window.location.href = '../index.html';
 }
 
-function databasePanel() {
-    window.location.href = './database.html';
-}
-
 function adminPanel() {
     window.location.href = 'pages/admin.html';
 }
@@ -56,7 +52,7 @@ async function fetchData() {
             exitTimeCell.textContent = car.exit_time;
 
             const feeCell = document.createElement("td");
-            feeCell.textContent = car.fee;
+            feeCell.textContent = car.fee ? parseFloat(car.fee).toFixed(2) : "0.00";
 
             row.appendChild(noCell);
             row.appendChild(plateCell);
@@ -71,4 +67,40 @@ async function fetchData() {
     } catch (error) {
         console.error("Error fetching data: ", error);
     }
+}
+
+async function updateAdminStatus() {
+    const databaseStatus = document.getElementById("database-status");
+    const lastAction = document.getElementById("last-action");
+
+    try {
+        const response = await fetch("../../data.json");
+
+        if (!response.ok) {
+            databaseStatus.innerHTML = 'Database: <span style="color:red;">Disconnected</span>';
+            lastAction.innerHTML = "Last Action: <span>—</span>";
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // If connected
+        databaseStatus.innerHTML = 'Database: <span style="color:green;">Connected</span>';
+
+        const data = await response.json();
+        console.log("Fetched admin data:", data);
+
+        // Update last action if it exists
+        if (data.last_action) {
+            lastAction.innerHTML = "Last Action: <span>" + data.last_action + "</span>";
+        } else {
+            lastAction.innerHTML = "Last Action: <span>None recorded</span>";
+        }
+
+    } catch (error) {
+        console.error("Error fetching admin status: ", error);
+    }
+}
+
+// Run this when the admin page loads
+if (window.location.pathname.includes("admin.html")) {
+    window.onload = updateAdminStatus;
 }
