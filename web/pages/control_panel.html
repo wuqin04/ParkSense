@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/base.css">
-    <link rel="stylesheet" href="../styles/control_pane.css">
-    <title>Control Panel</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gate Control Panel</title>
+    <link rel="stylesheet" href="../styles/control_panel.css" />
   </head>
 
   <body>
-    <h1>Control Panel</h1>
+    <!-- HEADER -->
+    <header class="admin-header">
+      <h1>ParkSense Gate Control</h1>
+      <p class="subtitle">Admin Access — Manage Gate Operations</p>
+    </header>
 
-    <div class="button-container">
-      <button onclick="openGate()">Open Gate</button>
-      <button onclick="closeGate()">Close Gate</button>
-      <button class="return-btn" onclick="goBack()">Return to Admin</button>
-    </div>
+    <!-- CONTROL PANEL -->
+    <main class="control-center">
+      <h2>Control Panel</h2>
 
+      <div class="button-group">
+        <button onclick="openGate()">Open Gate</button>
+        <button onclick="closeGate()">Close Gate</button>
+        <button class="return-btn" onclick="goBack()">Return to Admin</button>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2025 ParkSense System — Control Panel Interface</p>
+    </footer>
+
+    <!-- SCRIPT -->
     <script>
       function openGate() {
-        alert("Gate opening...");
-        // Add your MicroPython or API logic here
+        alert("Gate Opening...");
+        // TODO: Add MicroPython or server request logic here
       }
 
       function closeGate() {
-        alert("Gate closing...");
-        // Add your MicroPython or API logic here
+        alert("Gate Closing...");
+        // TODO: Add MicroPython or server request logic here
       }
 
       function goBack() {
