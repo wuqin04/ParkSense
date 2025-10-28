@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../styles/base.css">
-        <script src="../logic/backend.js"></script>
-        <title>Admin Page</title>
-    </head>
-    <body>
-        <h1>Admin Control Centre</h1>
-        <button>Gate Control</button>
-        <button onclick="databasePanel()" class="database-button" type="button">Check Database</button>
-        <button onclick="homePage()" class="homepage-button" type="button">Home</button>
-    </body>
+  <head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <link rel="stylesheet" href="../styles/base.css" >
+    <link rel="stylesheet" href="../styles/admin.css">
+    <script src="../logic/backend.js"></script>
+    <title>Admin Control Centre</title>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="admin-header">
+      <h1>Admin Control Centre</h1>
+      <p class="subtitle">Manage system functions and data</p>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-container">
+      <section class="control-panel">
+        <h2>Control Panel</h2>
+        <div class="button-group">
+          <button onclick="window.location.href='control_panel.html'">Gate Control</button>
+          <button onclick="window.location.href='database.html'">Check Database</button>
+          <button onclick="homePage()" class="homepage-button">Return to Home</button>
+        </div>
+      </section>
+
+      <section class="status-panel">
+        <h3>System Status</h3>
+        <p id="database-status">Database: <span>Connecting...</span></p>
+        <p id="last-action">Last Action: <span>None</span></p>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2025 ParkSense System — Admin Interface v1.0</p>
+    </footer>
+  </body>
 </html>

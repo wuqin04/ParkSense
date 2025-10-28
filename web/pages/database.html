@@ -8,36 +8,36 @@
         <script src="../logic/backend.js"></script>
         <title>ParkSense Database</title>
     </head>
-    <body onload="fetchData()">
-        <h1 class="title">Database Centre</h1>
-        <p class="status" id="status"><strong>Status:</strong> Fetching data...</p>
+   <body onload="fetchData()">
+  <main class="page-content">
+    <h1 class="title">Database Centre</h1>
+    <p class="status" id="status"><strong>Status:</strong> Fetching data...</p>
 
-        <div class="database-container">
-            <h2 class="parking-title"><u>Parking History</u></h2>
-            <table class="database-table">
-                <thead>
-                    <th>No</th> 
-                    <th>Car Plate</th>
-                    <th>Entry Time</th>
-                    <th>Exit Time</th>
-                    <th>Fee (RM)</th>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-            <div class="warning-container">
-                <p class="warning">current the database will not be refresh even if you update the .json file</p>    
-            </div>
-        </div>
+    <div class="database-container">
+      <h2 class="parking-title"><u>Parking History</u></h2>
+      <table class="database-table">
+        <thead>
+          <th>No</th>
+          <th>Car Plate</th>
+          <th>Entry Time</th>
+          <th>Exit Time</th>
+          <th>Fee (RM)</th>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="warning-container">
+        <p class="warning">update the database using hard-refresh (ctrl + f5) to get the latest data.</p>    
+      </div>
+    </div>
 
-        <div class="wrapper">
-            <button class="back-button" onclick="goBack()" type="button" >Back to Admin Panel</button>
-            <p class="warning">This button currently will only return back to main page.</p>
-            <div class="logo">
-                <p>Admin</p>
-            </div>
-        </div>
-    
-    </body>
+    <div class="wrapper">
+      <button class="back-button" onclick="goBack()" type="button">Back to Admin Panel</button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 ParkSense System — Admin Interface v1.0</p>
+  </footer>
+</body>
 </html>
