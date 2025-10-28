@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="../styles/user_base.css">
-        <script src="../logic/backend.js"></script>
-        <title>ParkSense</title>
-    </head>
-<!-- HEADER -->
-    <header class="user-header">
-      <h1>Welcome to ParkSense User Control Panel</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="../styles/user_base.css" />
+  <script src="../logic/backend.js"></script>
+  <title>ParkSense</title>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="user-header">
+    <h1>Welcome to ParkSense User Control Panel</h1>
     <p class="subtitle">Your personal dashboard for smart parking control.</p>
+  </header>
 
-    </header>
-    <body>    
-        <div class="button-group">
-        <button id='track'type="button">Track Your Current Fee</button>
-        <button id = 'check'class="button" type="button">Check Occupancy Status</button>
-        <button id= 'home' class="button" type="button" onclick="homePage()">Home</button>
-        </div>
-      
-   
-    </body>
-    <footer>
+  <!-- MAIN CONTENT -->
+  <div class="section">
+    <div class="item">
+      <button id="track" type="button">Track Your Current Fee</button>
+      <img src="../images/money.jpg" alt="Track Fee">
+    </div>
+
+    <div class="item">
+      <button id="check" type="button">Check Occupancy Status</button>
+      <img src="../images/check2.jpg" alt="Check Status">
+    </div>
+
+    <div class="item">
+      <button id="home" type="button" onclick="homePage()">Home</button>
+      <img src="../images/home button.jpg" alt="Home Button">
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
     <p>© 2025 ParkSense System — User Interface v1.0</p>
-
     <p><b>Created by:</b></p>
-        <div class="social-links">
-            <a href="https://www.instagram.com/kian.foo/" target="_blank">@kian.foo</a>
-            <a href="https://www.instagram.com/minggg.0102/" target="_blank">@minggg.0102</a>
-            <a href="https://www.instagram.com/wj_0419/" target="_blank">@wj_0419</a>
-            <a href="https://www.instagram.com/calvin_.05/" target="_blank">@calvin_.05</a>
-            <a href="https://www.instagram.com/yimingminyig/" target="_blank">@yimingminyig</a>
-        </div>
-    </footer>
-
-
-
+    <div class="social-links">
+      <a href="https://www.instagram.com/kian.foo/" target="_blank">@kian.foo</a>
+      <a href="https://www.instagram.com/minggg.0102/" target="_blank">@minggg.0102</a>
+      <a href="https://www.instagram.com/wj_0419/" target="_blank">@wj_0419</a>
+      <a href="https://www.instagram.com/calvin_.05/" target="_blank">@calvin_.05</a>
+      <a href="https://www.instagram.com/yimingminyig/" target="_blank">@yimingminyig</a>
+    </div>
+  </footer>
+</body>
+</html>
