@@ -14,6 +14,18 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
+function openGate() {
+  const selectedGate = document.getElementById("gateSelector").value;
+  console.log(`Opening ${selectedGate} gate...`);
+  // send command to micropython
+}
+
+function closeGate() {
+  const selectedGate = document.getElementById("gateSelector").value;
+  console.log(`Closing ${selectedGate} gate...`);
+  // send command to micropython
+}
+
 async function fetchData() {
     try {
         const response = await fetch("../../data.json");

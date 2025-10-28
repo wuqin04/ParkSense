@@ -3,48 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gate Control Panel</title>
+    <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/control_panel.css" />
+    <script src="../logic/backend.js"></script>
+    <title>Control Center</title>
   </head>
 
   <body>
-    <!-- HEADER -->
-    <header class="admin-header">
-      <h1>ParkSense Gate Control</h1>
-      <p class="subtitle">Admin Access — Manage Gate Operations</p>
+    <header class="control-header">
+      <h1>Smart Gate Control Center</h1>
+      <p class="subtitle">Manage and monitor your gate system</p>
     </header>
 
-    <!-- CONTROL PANEL -->
-    <main class="control-center">
-      <h2>Control Panel</h2>
+    <!-- Gate selector sits above the grid -->
+    <section class="gate-selector">
+      <label for="gateSelector">Select Gate:</label>
+      <select id="gateSelector">
+        <option value="entrance">Entrance Gate</option>
+        <option value="exit">Exit Gate</option>
+      </select>
+    </section>
 
-      <div class="button-group">
-        <button onclick="openGate()">Open Gate</button>
-        <button onclick="closeGate()">Close Gate</button>
-        <button class="return-btn" onclick="goBack()">Return to Admin</button>
+    <main class="control-grid">
+      <div class="control-card open">
+        <img src="../images/control_panel/open_placeholder.png" alt="Open Gate Image" class="card-image" />
+        <h2>Open Gate</h2>
+        <button id="openGateBtn" onclick="openGate()">Open</button>
+      </div>
+
+      <div class="control-card close">
+        <img src="../images/control_panel/open_placeholder.png" alt="Close Gate Image" class="card-image" />
+        <h2>Close Gate</h2>
+        <button id="closeGateBtn" onclick="closeGate()">Close</button>
+      </div>
+
+      <div class="control-card return">
+        <img src="../images/control_panel/admin.png" alt="Return Image" class="card-image" />
+        <h2>Return</h2>
+        <button id="returnBtn" onclick="goBack()">Back to Admin</button>
       </div>
     </main>
 
-    <!-- FOOTER -->
+
     <footer>
-      <p>© 2025 ParkSense System — Control Panel Interface</p>
+      <p>© 2025 Smart Parking System | Control Center</p>
     </footer>
-
-    <!-- SCRIPT -->
-    <script>
-      function openGate() {
-        alert("Gate Opening...");
-        // TODO: Add MicroPython or server request logic here
-      }
-
-      function closeGate() {
-        alert("Gate Closing...");
-        // TODO: Add MicroPython or server request logic here
-      }
-
-      function goBack() {
-        window.location.href = "../pages/admin.html"; // Adjust if needed
-      }
-    </script>
   </body>
 </html>
