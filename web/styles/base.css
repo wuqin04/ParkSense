@@ -4,82 +4,70 @@ body {
   padding: 0;
   background: #fff;
   font-family: "Franklin Gothic Medium", "Arial", sans-serif;
+  color: #1E1E2F;
 }
 
 /* ---------- TEXT ---------- */
 * {
-  font-family: "Franklin Gothic Medium";
+  box-sizing: border-box;
+  font-family: "Franklin Gothic Medium", Arial, sans-serif;
 }
 
 #theme {
   color: #4A90E2;
-  font-size: 3vw; /* responsive base size */
+  font-size: 3vw;
   text-align: center;
+  margin-top: 2rem;
 }
 
 #p {
   color: #1E1E2F;
-  font-size: 2vw;
+  font-size: 1.8vw;
   text-align: center;
+  margin: 1rem auto;
+  width: 80%;
 }
 
 #p2 {
   color: #1E1E2F;
-  font-size: 1vw;
-  font-family: "Arial";
+  font-size: 1.2vw;
+  font-family: Arial, sans-serif;
   text-align: center;
+  width: 80%;
+  margin: 0.5rem auto;
+  line-height: 1.5;
 }
 
 /* ---------- BUTTONS ---------- */
-button {
-    background-color: #1a73e8;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(26, 115, 232, 0.3);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background-color: #155ab6;
-    transform: translateY(-2px);
-}
-
-.user-button,
-.admin-button {
-  margin-top: 2%;
-  margin-bottom: 2%;
-}
-
-.user-button {
-  margin-left: 30%;
-}
-
-.admin-button {
-  margin-right: 30%;
-}
-
-/* ---------- FOOTER ---------- */
-footer {
-  text-align: center;
-  padding: 3vw;
-  height: auto;
-  background-color: black;
-  color: white;
-  font-size: 1vw;
-  margin-top: 5vw;
+.button-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 2rem;               /* smaller horizontal gap */
+  margin: 1.5rem 0 2rem;   /* less vertical space (top and bottom) */
 }
 
-/* ---------- FLEX DIV CONTAINER ---------- */
-div {
-  display: flex;
-  justify-content: space-between;
+.user-button:hover,
+.admin-button:hover {
+  background-color: #155ab6;
+  transform: translateY(-2px);
+}
+
+button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #155ab6;
+  transform: translateY(-3px);
 }
 
 /* ---------- BANNER ---------- */
@@ -88,55 +76,212 @@ div {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px;
+  gap: 1rem;       /* smaller gap between images */
+  padding: 0;      /* remove extra padding below buttons */
+  margin-bottom: 2rem;
 }
 
 .banner img {
   height: 200px;
   width: auto;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 8px;
   flex: 1 1 30%;
   max-width: 33%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.banner img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  color: #555;
+  background: #e9ecef;
+  border-top: 1px solid #d0d7de;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  margin-top: 4rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1vw;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.social-links a {
+  color: #4A90E2;
+  text-decoration: none;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
+.social-links a:hover {
+  color: #82b1ff;
+  text-shadow: 0 0 8px rgba(130, 177, 255, 0.6);
+  transform: scale(1.05);
+}
+
 /* ---------- RESPONSIVE DESIGN ---------- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   #theme {
     font-size: 4vw;
+  }
+  #p {
+    font-size: 2.5vw;
+  }
+  #p2 {
+    font-size: 2vw;
+  }
+  .banner img {
+    height: 150px;
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  #theme {
+    font-size: 6vw;
   }
 
   #p {
     font-size: 4vw;
+    width: 90%;
   }
 
   #p2 {
-    font-size: 3vw;
+    font-size: 3.5vw;
+    width: 90%;
   }
 
-  .admin-button,
-  .user-button {
-    font-size: 3vw;
-    padding: 3% 5%;
-    margin-left: 0;
-    margin-right: 0;
-    display: block;
-    width: 40%;
-    margin: 3% auto;}
-    
-  
+  .button-container {
+    flex-direction: column;
+    height: auto;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
 
-  footer {
-    font-size: 3vw;
-    padding: 5vw;
+  button {
+    width: 70%;
+    font-size: 4vw;
+    padding: 1rem 0;
   }
 
   .banner img {
+    height: 120px;
+    max-width: 90%;
+  }
+
+  footer {
+    font-size: 3.5vw;
+    padding: 8vw 4vw;
+    gap: 1rem;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .social-links a {
+    font-size: 4vw;
+  }
+}
+
+@media (max-width: 480px) {
+  #theme {
+    font-size: 7vw;
+  }
+  #p {
+    font-size: 4.5vw;
+  }
+  #p2 {
+    font-size: 4vw;
+  }
+  button {
+    width: 80%;
+    font-size: 4.5vw;
+  }
+  .banner img {
     height: 100px;
-    flex: 1 1 100%;
     max-width: 100%;
-    border-radius: 8px;
+  }
+  footer {
+    font-size: 4vw;
+  }
+}
+
+/* ---------- DESKTOP OPTIMIZATION ---------- */
+/* ---------- DESKTOP OPTIMIZATION ---------- */
+@media (min-width: 1025px) {
+  #theme {
+    font-size: 2.5rem;
+  }
+
+  #p {
+    font-size: 1.3rem;
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  #p2 {
+    font-size: 1.1rem;
+    width: 70%;
+    margin: 1rem auto;
+  }
+
+  /* --- BUTTONS --- */
+  .user-button,
+  .admin-button {
+    font-size: 1.3rem;
+    padding: 1.2rem 2.5rem;
+    border-radius: 12px;
+    margin: 2rem auto;
+    width: 250px; /* fixed width for consistency */
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  /* --- BANNER --- */
+  .banner img {
+    height: 300px;
+    max-width: 32%;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .banner img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* --- FOOTER --- */
+  footer {
+    font-size: 1.1rem;
+    padding: 2.5rem 1rem;
   }
 }
