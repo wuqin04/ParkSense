@@ -1,4 +1,4 @@
-/*Header*/
+/* ---------- HEADER ---------- */
 .user-header {
   background: linear-gradient(135deg, #007bff, #00b4d8);
   color: white;
@@ -19,8 +19,7 @@
   opacity: 0.9;
 }
 
-
-
+/* ---------- GENERAL ---------- */
 body {
   margin: 0;
   padding: 0;
@@ -28,39 +27,36 @@ body {
   font-family: "Franklin Gothic Medium", "Arial", sans-serif;
 }
 
-
-* {
-  font-family: "Franklin Gothic Medium";
-}
-
 #theme {
   color: #2979ff;
-  font-size: 3.2vw;
+  font-size: 3vw;
   text-align: center;
   margin-top: 3vw;
   letter-spacing: 1px;
   text-shadow: 1px 1px 3px rgba(41, 121, 255, 0.25);
 }
 
-hr {
-  width: 100%;
-  height: 2px;
-  border: none;
-  background-color: #000;
-  margin: 1vw 0 2vw 0;
+/* ---------- MAIN SECTION ---------- */
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4rem;
+  margin-top: 5%;
+  padding: 0 2rem;
 }
 
-#p {
-  color: #1e1e2f;
-  font-size: 2vw;
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 4vw;
+  gap: 1.2rem;
+  flex: 1 1 250px;
 }
 
-
-
-/* ---------- BUTTONS ---------- */
-/* ---------- BUTTONS ---------- */
+/* ---------- BUTTON ---------- */
 button {
   background-color: #1a73e8;
   color: white;
@@ -71,9 +67,7 @@ button {
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0 4px 10px rgba(26, 115, 232, 0.25);
-  flex: 1; /* ensures equal width for all buttons */
-  min-width: 200px; /* prevents buttons from shrinking too much */
-  text-align: center;
+  min-width: 200px;
 }
 
 button:hover {
@@ -82,45 +76,52 @@ button:hover {
   box-shadow: 0 6px 15px rgba(26, 115, 232, 0.35);
 }
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px rgba(26, 115, 232, 0.3);
+/* ---------- IMAGE ---------- */
+.item img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ---------- BUTTON GROUP ---------- */
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 3rem;
-  gap: 1.5rem;
-  margin-top: 8%;
-  flex-wrap: wrap; /* makes it responsive */
+.item img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-#track, #check, #home {
-  margin-top: 0; /* handled by .button-group now */
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .item {
+    flex-direction: column-reverse; /* image below button */
+  }
+
+  .item img {
+    width: 150px;
+    height: 150px;
+  }
+
+  button {
+    min-width: 150px;
+    font-size: 0.9rem;
+  }
 }
 
 /* ---------- FOOTER ---------- */
-
 footer {
-  margin-top: 30%;
+  margin-top: 8%;
   text-align: center;
-  padding: 2rem ;
+  padding: 2rem;
   font-size: 0.9rem;
   color: #555;
   background: #e9ecef;
   border-top: 1px solid #d0d7de;
-}
-
-
-footer p {
-  margin: 0.3rem 0;
-}
-
-footer .credits {
-  margin-top: 0.8rem;
 }
 
 .social-links {
@@ -141,41 +142,4 @@ footer .credits {
 .social-links a:hover {
   color: #0d47a1;
   transform: scale(1.05);
-}
-
-/* ---------- RESPONSIVE DESIGN ---------- */
-@media (max-width: 768px) {
-  #theme {
-    font-size: 6vw;
-    margin-top: 6vw;
-  }
-
-  #p {
-    font-size: 4.5vw;
-    margin-bottom: 6vw;
-  }
-
-  div {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  button {
-    width: 70%;
-    font-size: 3.5vw;
-    padding: 1rem 0;}
-
-  footer {
-    font-size: 3.5vw;
-    padding: 2rem 1rem;
-  }
-
-  .social-links {
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .social-links {
-    gap: 0.7rem;
-  }
-
 }
