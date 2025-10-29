@@ -14,18 +14,45 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
-function openGate() {
-  const selectedGate = document.getElementById("gateSelector").value;
-  alert("Opening gate...");
-  console.log(`Opening ${selectedGate} gate...`);
-  // send command to micropython
+async function sendGateCommand(gate, action){
+    const MICROPYTHON_IP = "10.38.61.193"; // pico IP
+    const PORT = 80; // HTTP port
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(b => b.disabled = true); //disable button when gate opening
+    const data = {gate, action};
+
+    try{
+        const response = await fetch(`http://${MICROPYTHON_IP}:${PORT}/gate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+    }
+
+    catch(err){
+        console.error("Failed to send command:", err);
+        alert(`Error on sending command to ${gate} gate`);
+    }
+
+    finally{
+        buttons.forEach(b => b.disabled = false);
+    }
 }
 
-function closeGate() {
-  const selectedGate = document.getElementById("gateSelector").value;
-  alert("Closing gate...");
-  console.log(`Closing ${selectedGate} gate...`);
-  // send command to micropython
+function openGate(){
+    const selectedGate = document.getElementById("gateSelector").value;
+    alert("Opening gate...");
+    console.log(`Opening ${selectedGate} gate...`);
+    // send command to micropython
+    sendGateCommand(selectedGate, "open");
+}
+
+function closeGate(){
+    const selectedGate = document.getElementById("gateSelector").value;
+    alert("Closing gate...");
+    console.log(`Closing ${selectedGate} gate...`);
+    // send command to micropython
+    sendGateCommand(selectedGate, "close");
 }
 
 async function fetchData() {
