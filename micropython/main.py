@@ -132,14 +132,33 @@ while True:
                     continue
                 
                 print(f"Received data from connection: {info}")
-                plate = info.get("car_plate")
 
+                gate = info.get("gate")       # "entrance" or "exit"
+                action = info.get("action")   # "open" or "close"
+
+                if gate and action:
+                    if gate == "entrance":
+                        if action == "open":
+                            entry_gate.open_gate()
+                            print("Entrance gate opened manually")
+                        elif action == "close":
+                            entry_gate.close_gate()
+                            print("Entrance gate closed manually")
+                    elif gate == "exit":
+                        if action == "open":
+                            exit_gate.open_gate()
+                            print("✅ Exit gate opened manually")
+                        elif action == "close":
+                            exit_gate.close_gate()
+                            print("✅ Exit gate closed manually")
+                    continue  # skip plate logic if manual command sent
+            
+                plate = info.get("car_plate")
                 # entry_gate logic
                 if plate not in number_plates:
                     entry_gate.car_entry(plate)
                 # exit_gate logic
                 else:
-                    print(plate)
                     fee = info.get("fee")
                     exit_gate.car_exit(plate, fee)
                     entry_gate.show_availability()

@@ -14,4 +14,3 @@ def load_data(path="data.json"):
 def save_data(data, path="data.json"):
     with open(path, "w") as file:
         json.dump(data, file, indent=4)
-
