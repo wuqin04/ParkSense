@@ -45,19 +45,13 @@ def run_ultrasonic():
                 stable_count[i] = 0
         time.sleep(0.5)
 
-# Wi-Fi Setup
-SSID = "Ming's"
-PASSWORD = "88888888"
-
-PORT = 8888
-
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect(SSID, PASSWORD)
+wlan.connect(configs.SSID, configs.PASSWORD)
 
 if not wlan.isconnected():
     print("Connecting to Wi-Fi...")
-    wlan.connect(SSID, PASSWORD)
+    wlan.connect(configs.SSID, configs.PASSWORD)
 
     # wait up to 15 seconds
     for i in range(15):
@@ -75,9 +69,9 @@ else:
 
 # TCP Server Setup
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("", PORT))
+server.bind(("", configs.PORT))
 server.listen(1)
-print(f"Listening on port {PORT}...")
+print(f"Listening on port {configs.PORT}...")
 
 # Variables initialise
 # parking slot map: 0 = empty, 1 = occupied
@@ -132,26 +126,6 @@ while True:
                     continue
                 
                 print(f"Received data from connection: {info}")
-
-                gate = info.get("gate")       # "entrance" or "exit"
-                action = info.get("action")   # "open" or "close"
-
-                if gate and action:
-                    if gate == "entrance":
-                        if action == "open":
-                            entry_gate.open_gate()
-                            print("Entrance gate opened manually")
-                        elif action == "close":
-                            entry_gate.close_gate()
-                            print("Entrance gate closed manually")
-                    elif gate == "exit":
-                        if action == "open":
-                            exit_gate.open_gate()
-                            print("✅ Exit gate opened manually")
-                        elif action == "close":
-                            exit_gate.close_gate()
-                            print("✅ Exit gate closed manually")
-                    continue  # skip plate logic if manual command sent
             
                 plate = info.get("car_plate")
                 # entry_gate logic

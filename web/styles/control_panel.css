@@ -30,6 +30,10 @@ body {
   opacity: 0.9;
 }
 
+.control-header .subtitle .warning {
+  color: red;
+}
+
 /* ---------- MAIN GRID ---------- */
 .control-grid {
   flex: 1;

@@ -10,7 +10,7 @@
             "car_plate": "XYZ5678",
             "entry_time": "2025-10-27 09:10:45",
             "exit_time": "2025-10-27 11:00:00",
-            "fee": 4.00
+            "fee": 4.0
         },
         {
             "car_plate": "JJK9988",
@@ -22,7 +22,13 @@
             "car_plate": "PLT1122",
             "entry_time": "2025-10-27 13:05:00",
             "exit_time": "2025-10-27 14:20:00",
-            "fee": 3.00
+            "fee": 3.0
+        },
+        {
+            "car_plate": "FFONDA05217",
+            "entry_time": "2025-10-30 12:50:34",
+            "exit_time": null,
+            "fee": 0
         }
     ]
 }
