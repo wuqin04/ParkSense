@@ -14,10 +14,6 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
-
-
-
-
 function TrackCar() {
         window.location.href ='../pages/track_car.html'
 }

@@ -85,8 +85,8 @@ body {
 .gate {
   position: absolute;
   background-color: rgb(77, 77, 77);
-  width: 100px;
-  height: 180px;
+  width: 245px;
+  height: 100px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -101,8 +101,8 @@ body {
 #slot3 { top: 50px; right:60px }
 #slot4 { top: 250px; right:60px }
 #slot5 { top: 450px; right:60px }
-#entrance { bottom: 250px; right:60px }
-#exit { bottom: 450px; right:60px }
+#entrance { bottom:0px; left:234px }
+#exit { bottom: 0px; right:235px }
 
 .backto {
   background: linear-gradient(135deg, #007bff, #00b4d8);
@@ -125,7 +125,146 @@ body {
 
 .button-box {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 15px;
     margin-top: 2%;
+    margin-left: 10%;
   }
+
+
+.legend-box {
+  display: flex;
+  gap: 20px;
+  background: #f1f1f1;
+  padding: 14px 20px;
+  border-radius: 16px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  position: absolute;
+  right:162px;
+  top: 185px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.legend-dot.occupied {
+  background: #e53935; /* red */
+}
+.legend-dot.empty {
+  background: #4caf50; /* green */
+}
+
+
+/* ✅ Phones/tablets PORTRAIT — rotate stage 90° */
+@media (max-width: 1000px) and (orientation: portrait) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .stage-container {
+    width: 100%;
+    height: calc(100vw * 1200 / 720);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 500px 0 50px 0;
+    position: relative;
+  }
+
+  .stage {
+    width: 90vw;
+    height: calc(90vw * 720 / 1200);
+    max-width: none;
+    transform: rotate(90deg);
+    transform-origin: center center;
+    margin-top: 40%;
+    position: relative;
+  }
+
+  .slot {
+    width: 8.33%;
+    height: 25%;
+    position: absolute;
+  }
+
+  .gate {
+    width: 20.42%;
+    height: 13.89%;
+    position: absolute;
+  }
+
+  #slot1 { top: 55.56%; left: 5%; }
+  #slot2 { top: 13.89%; left: 5%; }
+  #slot3 { top: 6.94%; right: 5%; }
+  #slot4 { top: 34.72%; right: 5%; }
+  #slot5 { top: 62.5%; right: 5%; }
+  #entrance { bottom: 0%; left: 19.5%; }
+  #exit { bottom: 0%; right: 19.58%; }
+
+.legend-box { position: relative; 
+  top: auto; left: auto;
+   transform: none; right: auto; margin: 15px auto 20px; 
+   justify-content: center; z-index: 1000; } 
+   
+.button-box { margin: 20px auto 0; justify-content: center; padding: 0 20px; } 
+}
+/* ✅ Phones/tablets LANDSCAPE — NO rotation (horizontal) */
+@media (max-width: 1000px) and (orientation: landscape) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .stage-container {
+    width: 100%;
+    height: calc(100vw * 1200 / 720);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0 40px 0;
+    position: relative;
+  }
+
+  .stage {
+    width: 90vw;
+    height: calc(90vw * 720 / 1200);
+    max-width: none;
+    transform: none; /* ✅ NO rotation */
+    transform-origin: center center;
+    margin-top: 0%;
+    position: relative;
+  }
+
+  .slot {
+    width: 8.33%;
+    height: 25%;
+    position: absolute;
+  }
+
+  .gate {
+    width: 20.42%;
+    height: 13.89%;
+    position: absolute;
+  }
+
+  #slot1 { top: 55.56%; left: 5%; }
+  #slot2 { top: 13.89%; left: 5%; }
+  #slot3 { top: 6.94%; right: 5%; }
+  #slot4 { top: 34.72%; right: 5%; }
+  #slot5 { top: 62.5%; right: 5%; }
+  #entrance { bottom: 0%; left: 19.5%; }
+  #exit { bottom: 0%; right: 19.58%; }
+
+.legend-box { position: relative; 
+  top: auto; left: auto;
+   transform: none; right: auto; margin: 15px auto 20px; 
+   justify-content: center; z-index: 1000; } 
+   
+.button-box { margin: 20px auto 0; justify-content: center; padding: 0 20px; } 
+}

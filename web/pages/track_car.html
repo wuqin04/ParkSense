@@ -7,32 +7,44 @@
   <link rel="stylesheet" href="../styles/track_car.css" />
   <script src="../logic/backend.js"></script>
 </head>
-
-
-<body>
-  <!-- HEADER -->
-  <header class="track-header">
+  
+<header class="track-header">
     <p>Welcome to ParkSense — Track your car in real time. </p> 
     <p>Check live parking slot availability below.</p>
-  </header>
+</header>
 <div class="button-box">
     <button class="backto" onclick="goBack()" type="button">Back to user panel</button>
     <button class="backto" onclick="homePage()" type="button">Home</button>
 </div>
 
+
+<div class="legend-box">
+  <div class="legend-item">
+    <div class="legend-dot occupied"></div>
+    <span>Occupied</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot empty"></div>
+    <span>Empty</span>
+  </div>
+</div>
+
+
+<body>
 <div class="stage" id="stage">
-
-   
+ 
 <div class="bg" aria-hidden="true"></div>
+<div id="slot1" class="slot available">A1</div>
+<div id="slot2" class="slot occupied">B1</div>
+<div id="slot3" class="slot available">C1</div>
+<div id="slot4" class="slot occupied">D1</div>
+<div id="slot5" class="slot available">E1</div>
 
-<div id="slot1" class="slot available">Slot 1</div>
-<div id="slot2" class="slot occupied">Slot 2</div>
-<div id="slot3" class="slot available">Slot 3</div>
-<div id="slot4" class="slot occupied">Slot 4</div>
-<div id="slot5" class="slot available">Slot 5</div>
+<div id='entrance'class="gate">Entrance</div>
+<div id='exit' class="gate">Exit</div>
+</body>
 
-<div id='Entrance 'class="gate">Entrance</div>
-<div id='Exit' class="gate">Exit</div>
+
 
 
  
