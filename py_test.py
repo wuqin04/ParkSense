@@ -1,5 +1,5 @@
-# this program can only be run after the server is already setup from micropython
-# this is the client side of code
+# THIS IS THE CLIENT'S SIDE OF TCP SERVER WHICH WILL SEND DATA TO THE SERVER TCP
+# THIS PROGRAM SHOULD BE RUN AFTER THE SERVER SIDE OF CODE HAVE ALREADY RUNNING
 
 import cv2 as cv
 import easyocr
@@ -8,11 +8,12 @@ from datetime import datetime, timedelta
 import json
 import os
 import socket
-from car import Car
-import database
+from python.car import Car
+import python.database
+import requests
 
 # Socket Setup
-MICROPYTHON_IP = "192.168.250.193"
+MICROPYTHON_IP = "10.169.100.193"
 MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
 # TCP Client Setup
@@ -27,7 +28,7 @@ except Exception as e:
     sock = None
 
 # OCR + Cam Setup
-reader = easyocr.Reader(['en'], gpu=False)
+reader = easyocr.Reader(['en'], gpu=True)
 
 cap = cv.VideoCapture(0)
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 640)
@@ -37,12 +38,14 @@ confirmed_plates = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
 # main loop
+frame_count = 0
 while True:
     recentresult = []
 
-    # Capture 10 readings (~5 seconds)
-    for x in range(10):
+    # Capture 5 readings (~5 seconds)
+    for x in range(5):
         ret, frame = cap.read()
+
         if not ret:
             print("⚠️ Camera frame not captured.")
             break
@@ -70,7 +73,7 @@ while True:
             bottom_right = tuple(map(int, bottom_right))
             cv.rectangle(frame, top_left, bottom_right, (0, 255, 0), 2)
             cv.putText(frame, text, (top_left[0], top_left[1] - 10),
-                       cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+            cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
         # Display detected text
         if combined_text:
@@ -93,16 +96,15 @@ while True:
         verify = max(set(recentresult), key=recentresult.count)
         frequency = recentresult.count(verify)
 
-        if frequency >= 5 and verify not in confirmed_plates:
+        if frequency >= 1 and verify not in confirmed_plates:
             confirmed_plates.append(verify)
             print(f"✅ Confirmed plate: {verify}")
 
             # handle database and .json format here
             file_path = "data.json"
-            all_data = database.load_data(file_path)
+            all_data = python.database.load_data(file_path)
 
             existing_car = next((c for c in all_data["cars"] if c["car_plate"] == verify), None)
-
 
             now = datetime.now()
             now_str = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -111,6 +113,7 @@ while True:
             car_data = car.to_dict()
 
             found = False
+            
             for existing_car in all_data["cars"]:
                 if existing_car["car_plate"] == car_data["car_plate"]:
                     existing_car.update(car_data)    
@@ -120,7 +123,7 @@ while True:
             if not found:
                 all_data["cars"].append(car_data)
 
-            database.save_data(all_data, file_path)
+            python.database.save_data(all_data, file_path)
 
             print("✅ JSON updated:", json.dumps(car_data, indent=4))
 
@@ -130,15 +133,53 @@ while True:
             # send to MicroPython
             if sock:
                 try:
-                    sock.send((json_data + "\n").encode())
-                    print("📤 Sent to MicroPython:", json_data)
+                    response = requests.post(f"http://{MICROPYTHON_IP}:{MICROPYTHON_PORT}/data", json=car_data, timeout=5)
+                    print(f"📤 Sent to ESP: {car_data}")
+                    print(f"📤 ESP response: {response.text}")
                 except Exception as e:
-                    print(f"⚠️ Failed to send: {e}")
+                    print(f"Failed to send data: {e}")
             else:
-                print("⚠️ No active socket connection.")
+                print("No active socket connection.")
 
-        else:
-            print(f"Most frequent: {verify} ({frequency}/10)")
+        elif frequency >= 5 and verify in confirmed_plates:
+            # handle json data here
+            file_path = "data.json"
+            all_data = python.database.load_data(file_path)
+
+            existing_car = next((c for c in all_data["cars"] if c["car_plate"] == verify), None)
+
+            now = datetime.now()
+            now_str = now.strftime('%Y-%m-%d %H:%M:%S')
+
+            if existing_car:
+                entry_time = datetime.strptime(existing_car["entry_time"], "%Y-%m-%d %H:%M:%S")
+                car = Car(existing_car["car_plate"], entry_time)
+
+                car.exit()
+
+                updated_data = car.to_dict()
+                existing_car.update(updated_data)
+
+                python.database.save_data(all_data, file_path)
+
+                confirmed_plates.remove(verify)
+
+                # exit_data = updated_data.copy()
+                print("✅ JSON updated:", json.dumps(updated_data, indent=4))
+
+                # json_data = json.dumps(exit_data)
+
+                if sock:
+                    try:
+                        response = requests.post(f"http://{MICROPYTHON_IP}:{MICROPYTHON_PORT}/data", json=updated_data, timeout=15)
+                        print(f"📤 Sent to ESP: {updated_data}")
+                        print(f"📤 ESP response: {response.text}")
+                    except Exception as e:
+                        print(f"Failed to send the exit data: {e}")
+                else:
+                    print("No active socket connection.")
+            else:
+                print("Warning! Car not found in JSON.")
     else:
         print("⚠️ No text detected in last 10 frames.")
 

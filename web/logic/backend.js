@@ -19,8 +19,8 @@ function TrackCar() {
 }
 
 async function sendGateCommand(gate, action){
-    const MICROPYTHON_IP = "10.38.61.193"; // pico IP
-    const PORT = 80; // HTTP port
+    const MICROPYTHON_IP = "10.169.100.193"; // pico IP
+    const PORT = 8888; // HTTP port
     const buttons = document.querySelectorAll("button");
     buttons.forEach(b => b.disabled = true); //disable button when gate opening
     const data = {gate, action};
@@ -45,17 +45,13 @@ async function sendGateCommand(gate, action){
 
 function openGate(){
     const selectedGate = document.getElementById("gateSelector").value;
-    alert("Opening gate...");
     console.log(`Opening ${selectedGate} gate...`);
-    // send command to micropython
     sendGateCommand(selectedGate, "open");
 }
 
 function closeGate(){
     const selectedGate = document.getElementById("gateSelector").value;
-    alert("Closing gate...");
     console.log(`Closing ${selectedGate} gate...`);
-    // send command to micropython
     sendGateCommand(selectedGate, "close");
 }
 
