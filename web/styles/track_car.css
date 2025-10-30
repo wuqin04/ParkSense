@@ -1,0 +1,131 @@
+*{font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: #f5f7fa;
+  color: #1a1a1a;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+
+.track-header {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-size: large;
+}
+
+.user-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.user-header .subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+ /* canvas that holds image and slots */
+  .stage{
+    width:100%;
+    max-width:1200px;
+    height:720px;
+    margin:24px auto;
+    position:relative;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 6px 30px rgba(0,0,0,0.35);
+    background:#333;
+  }
+
+  /* background image fills stage (use your provided image named Empty.jpg) */
+  .stage .bg{
+    position:absolute;
+    inset:0;
+    background-image:url("../images/user_panel/Empty.jpg");
+    background-size:cover;
+    background-position:center;
+  }
+
+
+
+
+.slot {
+  position: absolute;
+  width: 100px;
+  height: 180px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.available {
+  background-color: #4CAF50;
+}
+
+.occupied {
+  background-color: #E53935;
+}
+
+
+
+
+.gate {
+  position: absolute;
+  background-color: rgb(77, 77, 77);
+  width: 100px;
+  height: 180px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+/* Slot positions */
+#slot1 { top: 400px; left: 60px; }
+#slot2 { top: 100px; left: 60px; }
+#slot3 { top: 50px; right:60px }
+#slot4 { top: 250px; right:60px }
+#slot5 { top: 450px; right:60px }
+#entrance { bottom: 250px; right:60px }
+#exit { bottom: 450px; right:60px }
+
+.backto {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  margin: 0 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.backto:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0096c7, #0066cc);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+
+.button-box {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2%;
+  }

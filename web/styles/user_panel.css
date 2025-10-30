@@ -5,10 +5,12 @@ body {
   font-family: "Inter", "Segoe UI", sans-serif;
   background: #f5f7fa;
   color: #1a1a1a;
-  display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+
+
+
 
 /* ---------- HEADER ---------- */
 .user-header {
