@@ -14,40 +14,45 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
-async function sendGateCommand(action) {
-  const selectedGate = document.getElementById("gateSelector").value;
+async function sendGateCommand(gate, action){
+    const MICROPYTHON_IP = "10.38.61.193"; // pico IP
+    const PORT = 80; // HTTP port
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(b => b.disabled = true); //disable button when gate opening
+    const data = {gate, action};
 
-  const command = {
-    gate: selectedGate,
-    action: action
-  };
-
-  console.log(`Sending command:`, command);
-
-  try {
-    const response = await fetch("http://localhost:5050/command", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(command)
-    });
-
-    if (response.ok) {
-      alert(`✅ ${selectedGate} gate ${action} command sent.`);
-    } else {
-      alert(`⚠️ Failed to send command.`);
+    try{
+        const response = await fetch(`http://${MICROPYTHON_IP}:${PORT}/gate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
     }
-  } catch (error) {
-    console.error("Error sending command:", error);
-    alert("❌ Unable to connect to Flask server.");
-  }
+
+    catch(err){
+        console.error("Failed to send command:", err);
+        alert(`Error on sending command to ${gate} gate`);
+    }
+
+    finally{
+        buttons.forEach(b => b.disabled = false);
+    }
 }
 
-function openGate() {
-  sendGateCommand("open");
+function openGate(){
+    const selectedGate = document.getElementById("gateSelector").value;
+    alert("Opening gate...");
+    console.log(`Opening ${selectedGate} gate...`);
+    // send command to micropython
+    sendGateCommand(selectedGate, "open");
 }
 
-function closeGate() {
-  sendGateCommand("close");
+function closeGate(){
+    const selectedGate = document.getElementById("gateSelector").value;
+    alert("Closing gate...");
+    console.log(`Closing ${selectedGate} gate...`);
+    // send command to micropython
+    sendGateCommand(selectedGate, "close");
 }
 
 async function fetchData() {
