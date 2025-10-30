@@ -14,6 +14,14 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
+
+
+
+
+function TrackCar() {
+        window.location.href ='../pages/track_car.html'
+}
+
 async function sendGateCommand(gate, action){
     const MICROPYTHON_IP = "10.169.100.193"; // pico IP
     const PORT = 8888; // HTTP port
@@ -141,3 +149,29 @@ async function updateAdminStatus() {
 if (window.location.pathname.includes("admin.html")) {
     window.onload = updateAdminStatus;
 }
+
+
+/* Function for car tracking panel*/
+
+function randomizeSlots() {
+  const slots = document.querySelectorAll('.slot');
+
+  slots.forEach(slot => {
+    // Randomly decide if slot is occupied (true/false)
+    const isOccupied = Math.random() < 0.5; // 50% chance
+
+    if (isOccupied) {
+      slot.classList.remove('available');
+      slot.classList.add('occupied');
+      slot.style.backgroundColor = 'red';
+    } else {
+      slot.classList.remove('occupied');
+      slot.classList.add('available');
+      slot.style.backgroundColor = 'green';
+    }
+  });
+}
+
+setInterval(randomizeSlots, 2000);
+// Run once immediately on load
+randomizeSlots();
