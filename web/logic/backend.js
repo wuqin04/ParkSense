@@ -14,18 +14,40 @@ function userPanel() {
     window.location.href ='./pages/user_panel.html';
 }
 
-function openGate() {
+async function sendGateCommand(action) {
   const selectedGate = document.getElementById("gateSelector").value;
-  alert("Opening gate...");
-  console.log(`Opening ${selectedGate} gate...`);
-  // send command to micropython
+
+  const command = {
+    gate: selectedGate,
+    action: action
+  };
+
+  console.log(`Sending command:`, command);
+
+  try {
+    const response = await fetch("http://localhost:5050/command", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(command)
+    });
+
+    if (response.ok) {
+      alert(`✅ ${selectedGate} gate ${action} command sent.`);
+    } else {
+      alert(`⚠️ Failed to send command.`);
+    }
+  } catch (error) {
+    console.error("Error sending command:", error);
+    alert("❌ Unable to connect to Flask server.");
+  }
+}
+
+function openGate() {
+  sendGateCommand("open");
 }
 
 function closeGate() {
-  const selectedGate = document.getElementById("gateSelector").value;
-  alert("Closing gate...");
-  console.log(`Closing ${selectedGate} gate...`);
-  // send command to micropython
+  sendGateCommand("close");
 }
 
 async function fetchData() {

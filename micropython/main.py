@@ -139,7 +139,6 @@ while True:
                     entry_gate.car_entry(plate)
                 # exit_gate logic
                 else:
-                    print(plate)
                     fee = info.get("fee")
                     exit_gate.car_exit(plate, fee)
                     entry_gate.show_availability()
