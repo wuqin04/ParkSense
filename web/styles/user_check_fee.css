@@ -1,0 +1,323 @@
+/* ---------- RESET & BASE ---------- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: #f5f7fa;
+  color: #1a1a1a;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- HEADER ---------- */
+.fee-header {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.fee-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.fee-header .subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ---------- INPUT / DISPLAY BOXES ---------- */
+.inputbox,
+.displaybox {
+  width: 300px;
+  height: 50px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  margin-top: 2%;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.inputbox {
+  width: 500px;
+}
+
+/* ---------- BUTTONS ---------- */
+.backto {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  width: 200px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button-box {
+  display: flex;
+  gap: 15px;
+align-items: center;
+margin-bottom: 2%;
+}
+
+
+
+.enter-btn {
+  background: linear-gradient(135deg, #00b4d8, #007bff);
+  border: none;
+  color: white;
+  font-size: 0.85rem;      /* smaller text */
+  padding: 0.3rem 0.8rem;  /* smaller padding */
+  margin-left: 0.5rem;
+  border-radius: 0.6rem;   /* slightly smaller corners */
+  cursor: pointer;
+  width: 80px;             /* reduced width */
+  height: 35px;            /* reduced height */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enter-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0096c7, #0066cc);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+
+/* ---------- LAYOUT / GRID ---------- */
+.menu-container {
+  width: 1100px;
+  height: 450px;
+  margin: 2rem auto;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  transform-origin: top center;
+}
+
+.center-page {
+  display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+/* ---------- PANEL / CARD ---------- */
+section {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 500px;
+  height: 350px;
+  min-width: 500px;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.fee-panel {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #0077b6;
+  border-bottom: 2px solid #0077b6;
+  display: inline-block;
+  padding-bottom: 4px;
+  height: 100%;
+}
+
+/* ---------- TABLE ---------- */
+.fee-table {
+  width: 350px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fee-table th {
+  background: #1e90ff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.fee-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.fee-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* ---------- DISCLAIMER ---------- */
+.parking-disclaimer {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: 8px;
+  padding: 0 10px;
+  font-style: italic;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  background: #e9ecef;
+  border-top: 1px solid #d0d7de;
+}
+
+/* ---------- HOVERS ---------- */
+.backto:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0096c7, #0066cc);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ===============================
+   📱 MOBILE RESPONSIVE (max-width: 768px)
+   =============================== */
+@media (max-width: 1038px) {
+
+  /* ---------- HEADER ---------- */
+  .fee-header {
+    width: 100%;            /* full width */
+    padding: 1rem 0.8rem;   /* smaller padding */
+    text-align: center;
+  }
+
+  .fee-header h1 {
+    font-size: 1.4rem;      /* smaller font */
+  }
+
+  .fee-header .subtitle {
+    font-size: 0.85rem;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    width: 100%;            /* full width */
+    font-size: 0.75rem;     /* smaller font */
+    padding: 0.8rem;
+    text-align: center;
+  }
+
+  /* ---------- MENU CONTAINER ---------- */
+  .menu-container {
+    width: 100%;
+    grid-template-columns: 1fr; /* stack panels vertically */
+    gap: 1rem;
+    padding: 0 10px;
+    height: auto;
+    font-size: 60%;
+  }
+
+  /* ---------- PANELS ---------- */
+  section {
+    width: 80%;              /* almost full width */
+    min-width: unset;
+    max-width: unset;
+    height: 250px;           /* smaller height */
+    padding: 1rem;
+    margin: auto;
+    font-size: 60%;
+  }
+
+  .fee-panel {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  color: #0077b6;
+  border-bottom: 2px solid #0077b6;
+  display: inline-block;
+  padding-bottom: 4px;
+  height: 100%;
+}
+
+
+  /* ---------- DISPLAY BOX / INPUT ---------- */
+  .displaybox,
+  .inputbox {
+    width: 90%;             /* full width */
+    height: 30px;            /* smaller height */
+    margin-top: 0.8rem;
+    font-size: 70%;
+  }
+
+  .inputbox input {
+    width: 50%;             /* full width input */
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .button-box {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .backto {
+    width: 100%;             /* full width */
+    max-width: none;
+    height: 45px;            /* slightly smaller height */
+  }
+
+  /* ---------- TABLE ---------- */
+  .fee-table {
+    width: 100%;
+    font-size: 12px;        /* smaller font */
+    display: block;
+    overflow-x: auto;       /* allow horizontal scroll if needed */
+  }
+
+  .fee-table th,
+  .fee-table td {
+    padding: 5px;
+  }
+
+  /* ---------- DISCLAIMER ---------- */
+  .parking-disclaimer {
+    font-size: 12px;
+    padding: 0 5px;
+  }
+
+  /* ---------- CENTER PAGE ---------- */
+  .center-page {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+
+.displaybox {
+  width: 100%;
+  height: 40px;
+  font-size: 0.9rem;
+}

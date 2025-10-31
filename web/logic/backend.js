@@ -18,6 +18,10 @@ function TrackCar() {
         window.location.href ='../pages/track_car.html'
 }
 
+function TrackFee(){
+        window.location.href ='../pages/user_check_fee.html'
+}
+
 async function sendGateCommand(gate, action){
     const MICROPYTHON_IP = "10.169.100.193"; // pico IP
     const PORT = 8888; // HTTP port
@@ -171,3 +175,8 @@ function randomizeSlots() {
 setInterval(randomizeSlots, 2000);
 // Run once immediately on load
 randomizeSlots();
+
+
+
+
+
