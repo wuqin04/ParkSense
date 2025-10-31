@@ -26,3 +26,7 @@ class Ultrasonic:
 
     def toggle_led(self, toggle):
         self.led.value(toggle)
+        
+    def get_parking_slot(self):
+        return str(self.parking_slot)
+

@@ -3,7 +3,7 @@ from lcd_i2c import LCD
 from machine import I2C, Pin, time_pulse_us
 import _thread
 import time
-import configs
+import micropython.configs as configs
 
 number_plates = []
 class Counter:

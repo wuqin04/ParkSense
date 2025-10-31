@@ -6,7 +6,6 @@ import easyocr
 import time
 from datetime import datetime, timedelta
 import json
-import os
 import socket
 from car import Car
 import database
@@ -15,18 +14,7 @@ import threading
 
 # Socket Setup
 MICROPYTHON_IP = "172.27.247.193"
-MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
-
-# # TCP Client Setup
-# sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# sock.settimeout(15)
-
-# try:
-#     sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))
-#     print(f"✅ Connected to MicroPython at {MICROPYTHON_IP}:{MICROPYTHON_PORT}")
-# except Exception as e:
-#     print(f"⚠️ Connection failed: {e}")
-#     sock = None
+MICROPYTHON_PORT = 8888
 
 # OCR + Cam Setup
 reader = easyocr.Reader(['en'], gpu=True)
@@ -46,8 +34,61 @@ def send_to_esp(data, label=""):
     except Exception as e:
         print(f"❌ Failed to send {label} data: {e}")
 
+def occupancy_listener():
+    import json
+    HOST = "0.0.0.0"
+    OCCUPANCY_PORT = 8890
+
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((HOST, OCCUPANCY_PORT))
+    server.listen(3)
+    print(f"Occupancy listener running on {HOST}:{OCCUPANCY_PORT}...")
+
+    while True:
+        client, addr = server.accept()
+        print("📡 Occupancy connection from", addr)
+
+        try:
+            # accumulate headers
+            req = b""
+            while b"\r\n\r\n" not in req:
+                req += client.recv(1024)
+
+            headers, body = req.split(b"\r\n\r\n", 1)
+            headers_text = headers.decode()
+            path_line = headers_text.split("\r\n")[0]
+            method, path, _ = path_line.split(" ")
+
+            if method == "POST" and path == "/update_status":
+                # get content-length
+                content_length = 0
+                for line in headers_text.split("\r\n"):
+                    if line.lower().startswith("content-length"):
+                        content_length = int(line.split(":")[1].strip())
+
+                while len(body) < content_length:
+                    body += client.recv(1024)
+
+                data = json.loads(body.decode())
+                print("📥 Received occupancy update:", data)
+
+                with open("occupancy.json", "w") as f:
+                    json.dump(data, f)
+
+                client.send(b"HTTP/1.1 200 OK\r\nContent-Length: 8\r\n\r\nReceived")
+
+            else:
+                client.send(b"HTTP/1.1 404 Not Found\r\nContent-Length: 9\r\n\r\nNot Found")
+
+        except Exception as e:
+            print("❌ Occupancy error:", e)
+            client.send(b"HTTP/1.1 400 Bad Request\r\nContent-Length: 5\r\n\r\nError")
+        finally:
+            client.close()
+
 # main loop
 frame_count = 0
+threading.Thread(target=occupancy_listener, daemon=True).start()
 while True:
     recentresult = []
 

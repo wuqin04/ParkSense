@@ -10,6 +10,7 @@ from gate_control import Counter, number_plates
 from machine import I2C, Pin
 import configs
 import _thread
+import urequests
 
 def run_ultrasonic():        
     global parking_lot, parking_slots
@@ -30,10 +31,28 @@ def run_ultrasonic():
                     if raw_status[i] - configs.INITIAL_STATUS[i] == 1 and parking_lot[key] == 0:
                         parking_lot[key] = 1
                         parking_slots[i].toggle_led(configs.LED_OFF)
+                        data = {
+                            "slot_id":  i,
+                            "occupied": raw_status[i]
+                        }
+                        try:
+                            response = urequests.post(f"http://{configs.PYTHON_SERVER_IP}:8890/update_status", json=data)
+                            response.close()
+                        except Exception as e:
+                            print(f"Failed to send: {e}")
                         print(f"{key}: 🚗 Car Parked")
                     elif raw_status[i] - configs.INITIAL_STATUS[i] == -1 and parking_lot[key] == 1:
                         parking_lot[key] = 0
                         parking_slots[i].toggle_led(configs.LED_ON)
+                        data = {
+                            "slot_id":  i,
+                            "occupied": raw_status[i]
+                        }
+                        try:
+                            response = urequests.post(f"http://{configs.PYTHON_SERVER_IP}:8890/update_status", json=data)
+                            response.close()
+                        except Exception as e:
+                            print(f"Failed to send: {e}")
                         print(f"{key}: 🏁 Car Left")
 
                     configs.INITIAL_STATUS[i] = raw_status[i]
@@ -64,7 +83,7 @@ else:
     print("❌ Failed to connect. Check SSID/password/band and try connecting again.")
     sys.exit()
 
-# Listen on port 80
+# Listen on corresponding port
 addr = socket.getaddrinfo('0.0.0.0', configs.PORT)[0][-1]
 server = socket.socket()
 server.bind(addr)
@@ -83,11 +102,11 @@ nearest_slot = "A1" # defaulting the nearest parking slot to the first parking s
 
 # Ultrasonic Setup
 parking_slots = [
-    Ultrasonic(configs.TRIG_PIN_1, configs.ECHO_PIN_1, configs.LED_PIN_1, parking_lot["A1"]),
-    Ultrasonic(configs.TRIG_PIN_2, configs.ECHO_PIN_2, configs.LED_PIN_2, parking_lot["B1"]),
-    Ultrasonic(configs.TRIG_PIN_3, configs.ECHO_PIN_3, configs.LED_PIN_3, parking_lot["C1"]),
-    Ultrasonic(configs.TRIG_PIN_4, configs.ECHO_PIN_4, configs.LED_PIN_4, parking_lot["D1"]),
-    Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_PIN_5, parking_lot["E1"])
+    Ultrasonic(configs.TRIG_PIN_1, configs.ECHO_PIN_1, configs.LED_PIN_1, "A1"),
+    Ultrasonic(configs.TRIG_PIN_2, configs.ECHO_PIN_2, configs.LED_PIN_2, "B1"),
+    Ultrasonic(configs.TRIG_PIN_3, configs.ECHO_PIN_3, configs.LED_PIN_3, "C1"),
+    Ultrasonic(configs.TRIG_PIN_4, configs.ECHO_PIN_4, configs.LED_PIN_4, "D1"),
+    Ultrasonic(configs.TRIG_PIN_5, configs.ECHO_PIN_5, configs.LED_PIN_5, "E1")
 ]
 
 # initial the led to power on
@@ -240,4 +259,5 @@ while True:
     finally:
         client.close()
         print("Connection closed, waiting for next client...")
+
 
