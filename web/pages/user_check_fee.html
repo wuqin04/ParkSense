@@ -9,87 +9,75 @@
   <title>ParkSense</title>
 </head>
  
-<header>
 <header class="fee-header">
-<h1>Parking Fee Checker</h1>
-<p class="subtitle">Enter your parking details to view your current parking fee.</p>
+   <h1>Parking Fee Checker</h1>
+   <p class="subtitle">Enter your parking details to view your current parking fee.</p>
 </header>
 
-<div class="center-page">
-      
-  <div class="inputbox">
-    <label for="plate">Please enter your car plate  </label><br>
-    <input type="text" id="plate" name="plate">
-     <button class="enter-btn" onclick="checkFee()">Enter</button>
-  </div>
-  
-
-</div>
-
-
-
-
 <body>
+   <div class="center-page">
+      <div class="inputbox">
+         <label for="plate">Please enter your car plate  </label><br>
+         <input type="text" id="plate" name="plate">
+         <button class="enter-btn" onclick="checkFee()">Enter</button>
+      </div>
+   </div>
+   <main class="menu-container">
+      <section class="fee-panel">
+         <h2>Your current parking fee is:</h2>
+         <div class="displaybox" id="feeBox"></div>
 
-<main class="menu-container">
+         <h2>Your car entry time is:</h2>
+         <div class="displaybox" id="entryBox"></div>
 
-   <section class="fee-panel">
-      <h2>Your current parking fee is:</h2>
-      <div class="displaybox"></div>
+         <h2>Current time passed:</h2>
+         <div class="displaybox" id="durationBox"></div>
+      </section>
 
-      <h2>Your car entry time is:</h2>
-      <div class="displaybox"></div>
+      <section class="fee-panel">
+         <table class="fee-table">
+            <tr>
+               <th>Vehicle Type</th>
+               <th>First 1 Hour</th>
+               <th>Next Hours</th>
+               <th>Max Per Day</th>
+            </tr>
+            <tr>
+               <td>Car</td>
+               <td>RM 2.00</td>
+               <td>RM 1.00 / hour</td>
+               <td>RM 12.00</td>
+            </tr>
+            <tr>
+               <td>Motorcycle</td>
+               <td>RM 1.00</td>
+               <td>RM 0.50 / hour</td>
+               <td>RM 5.00</td>
+            </tr>
+            <tr>
+               <td>Truck / Van</td>
+               <td>RM 3.00</td>
+               <td>RM 2.00 / hour</td>
+               <td>RM 18.00</td>
+            </tr>
+         </table>
 
-      <h2>Current time passed:</h2>
-      <div class="displaybox"></div>
-   </section>
-
-   <section class="fee-panel">
-      <table class="fee-table">
-         <tr>
-            <th>Vehicle Type</th>
-            <th>First 1 Hour</th>
-            <th>Next Hours</th>
-            <th>Max Per Day</th>
-         </tr>
-         <tr>
-            <td>Car</td>
-            <td>RM 2.00</td>
-            <td>RM 1.00 / hour</td>
-            <td>RM 12.00</td>
-         </tr>
-         <tr>
-            <td>Motorcycle</td>
-            <td>RM 1.00</td>
-            <td>RM 0.50 / hour</td>
-            <td>RM 5.00</td>
-         </tr>
-         <tr>
-            <td>Truck / Van</td>
-            <td>RM 3.00</td>
-            <td>RM 2.00 / hour</td>
-            <td>RM 18.00</td>
-         </tr>
-      </table>
-
-      <p class="parking-disclaimer">
-         <strong>Note:</strong> Parking fees are calculated automatically based on entry time.  
-         Please ensure payment is completed before leaving the premises.  
-         Lost ticket penalty may apply. Rates subject to change without prior notice.
-      </p>
-   </section>
-
-</main>
-
+         <p class="parking-disclaimer">
+            <strong>Note:</strong> Parking fees are calculated automatically based on entry time.  
+            Please ensure payment is completed before leaving the premises.  
+            Rates subject to change without prior notice.
+         </p>
+      </section>
+   </main>
+   <div class ='center-page'>
+      <div class="button-box">  
+         <button class="backto" onclick= "userPanel()" type="button">Back to user panel</button>
+         <button class="backto" onclick="homePage()" type="button">Home</button>
+      </div>
+   </div>
 </body>
-
-<div class ='center-page'><div class="button-box">  
-    <button class="backto" onclick="goBack()" type="button">Back to user panel</button>
-  <button class="backto" onclick="homePage()" type="button">Home</button>
-  </div>
-</div>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 ParkSense System — Admin Interface v1.0</p>
+   <p>© 2025 ParkSense System — User Interface v1.0</p>
 </footer>

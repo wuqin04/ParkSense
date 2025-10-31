@@ -7,11 +7,11 @@ function homePage() {
 }
 
 function adminPanel() {
-    window.location.href = 'pages/admin.html';
+    window.location.href = '../web/pages/admin.html';
 }
 
 function userPanel() {
-    window.location.href ='./pages/user_panel.html';
+    window.location.href ='~/web/pages/user_panel.html';
 }
 
 function TrackCar() {
@@ -20,6 +20,73 @@ function TrackCar() {
 
 function TrackFee(){
         window.location.href ='../pages/user_check_fee.html'
+}
+
+async function checkFee(){
+    const plateInput = document.getElementById("plate");
+    const plate = plateInput.value.trim().toUpperCase().replace(/\s+/g, ""); //.replace(/\s+/g, "") to remove internal space
+
+    const feeBox = document.getElementById("feeBox");
+    const entryBox = document.getElementById("entryBox");
+    const durationBox = document.getElementById("durationBox");
+
+    // Clear previous results
+    feeBox.textContent = "";
+    entryBox.textContent = "";
+    durationBox.textContent = "";
+    
+    if(!plate){
+        feeBox.textContent = "⚠️ Please enter your car plate number.";
+        return;
+    }
+
+    try{
+        // Change URL if your JSON is hosted elsewhere
+        const response = await fetch("../../data.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        const cars = data.cars || [];
+
+        const car = cars.find(c => c.car_plate.toUpperCase() === plate);
+
+        if (!car){
+            feeBox.textContent = `❌ No record found for ${plate}`;
+            return;
+        }
+
+        const entry = car.entry_time;
+        const exit = car.exit_time;
+
+        if (!entry){
+            feeBox.textContent = "⚠️ Entry time not recorded.";
+            return;
+        }
+
+        const entryTime = new Date(entry);
+        const now = exit ? new Date(exit) : new Date();
+        const durationTime = Math.max((now - entryTime) / 1000, 0);
+        const secondRounded = Math.ceil(durationTime * 100) / 100; // keep 2 decimals
+
+        // === Fee Calculation Logic ===
+        let fee = 0;
+        if (fee < 20.0 ){
+            fee = durationTime / 100.0; // RM1 per next hour
+        }
+
+        if (fee >= 20.0) fee = 20.0; // max per day
+
+        // Display values
+        entryBox.textContent = entry;
+        durationBox.textContent = `${secondRounded.toFixed(2)} seconds`;
+        feeBox.textContent = `RM ${fee.toFixed(2)}`;
+
+    } 
+    catch (error) {
+        console.error("Error fetching data:", error);
+        feeBox.textContent = "⚠️ Unable to load parking data. Check your connection or file path.";
+    }
+
 }
 
 async function sendGateCommand(gate, action){

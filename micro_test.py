@@ -3,8 +3,13 @@ import socket
 import ujson
 import time
 import sys
-import configs
+from servo import Servo
+from lcd_i2c import LCD
+from ultrasonic import Ultrasonic
 from gate_control import Counter, number_plates
+from machine import I2C, Pin
+import configs as configs
+import _thread
 
 
 wlan = network.WLAN(network.STA_IF)
