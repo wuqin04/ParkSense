@@ -16,6 +16,7 @@ body {
 
 
 .track-header {
+  width: 100%;
   background: linear-gradient(135deg, #007bff, #00b4d8);
   color: white;
   text-align: center;
@@ -73,6 +74,7 @@ body {
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
+
 
 .available {
   background-color: #4CAF50;
@@ -173,31 +175,36 @@ footer {
 }
 
 
+footer {
+  width: 100%;
+  position : absolute;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  background: #e9ecef;
+  border-top: 1px solid #d0d7de;
+  bottom: -200px;
+}
+
+
 /* ✅ Phones/tablets PORTRAIT — rotate stage 90° */
 @media (max-width: 1000px) and (orientation: portrait) {
   body {
     overflow-x: hidden;
   }
 
-  .stage-container {
-    width: 100%;
-    height: calc(100vw * 1200 / 720);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 500px 0 50px 0;
-    position: relative;
-  }
-
   .stage {
-    width: 90vw;
-    height: calc(90vw * 720 / 1200);
+    width: 150vw;
+    height: calc(140vw * 720 / 1200);
     max-width: none;
-    transform: rotate(90deg);
+    transform: rotate(90deg) ;
     transform-origin: center center;
     margin-top: 40%;
-    position: relative;
+    position: absolute;
+    left: -100px; /* move left by 100px */
   }
+
 
   .slot {
     width: 8.33%;
@@ -209,7 +216,10 @@ footer {
     width: 20.42%;
     height: 13.89%;
     position: absolute;
+    transform: rotate(270deg);
+    transform-origin: center; /* rotate around center */
   }
+
 
   #slot1 { top: 55.56%; left: 5%; }
   #slot2 { top: 13.89%; left: 5%; }
@@ -225,7 +235,15 @@ footer {
    justify-content: center; z-index: 1000; } 
    
 .button-box { margin: 20px auto 0; justify-content: center; padding: 0 20px; } 
+
+
+.slot {
+    transform: rotate(270deg);
+    transform-origin: center; /* rotate around the center */
+  }
 }
+
+
 /* ✅ Phones/tablets LANDSCAPE — NO rotation (horizontal) */
 @media (max-width: 1000px) and (orientation: landscape) {
   body {
