@@ -1,6 +1,9 @@
 *{font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   font-family: "Inter", "Segoe UI", sans-serif;
@@ -33,30 +36,30 @@ body {
   opacity: 0.9;
 }
 
- /* canvas that holds image and slots */
-  .stage{
-    width:100%;
-    max-width:1200px;
-    height:720px;
-    margin:24px auto;
-    position:relative;
-    border-radius:6px;
-    overflow:hidden;
-    box-shadow:0 6px 30px rgba(0,0,0,0.35);
-    background:#333;
-  }
+/* canvas that holds image and slots */
+.stage{
+  width: 90%;
+  max-width: 1200px;
+  aspect-ratio: 1200 / 720; /* preserves your designed ratio */
+  height: auto; /* now height scales automatically */
+  margin: 24px auto;
+  margin-bottom: 100px;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.35);
+  background: #333;
+}
 
-  /* background image fills stage (use your provided image named Empty.jpg) */
-  .stage .bg{
-    position:absolute;
-    inset:0;
-    background-image:url("../images/user_panel/Empty.jpg");
-    background-size:cover;
-    background-position:center;
-  }
-
-
-
+/* background image fills stage (use your provided image named Empty.jpg) */
+.stage .bg{
+  position: absolute;
+  inset:  0;
+  background-image: url("../images/user_panel/Empty.jpg");
+  background-size:  contain;
+  background-position:  center;
+  background-repeat: no-repeat;
+}
 
 .slot {
   position: absolute;
@@ -78,9 +81,6 @@ body {
 .occupied {
   background-color: #E53935;
 }
-
-
-
 
 .gate {
   position: absolute;
@@ -159,6 +159,17 @@ body {
 }
 .legend-dot.empty {
   background: #4caf50; /* green */
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  position: relative;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  background: #e9ecef;
+  border-top: 1px solid #d0d7de;
 }
 
 
@@ -264,7 +275,8 @@ body {
 .legend-box { position: relative; 
   top: auto; left: auto;
    transform: none; right: auto; margin: 15px auto 20px; 
-   justify-content: center; z-index: 1000; } 
+   justify-content: center; z-index: 1000; 
+} 
    
 .button-box { margin: 20px auto 0; justify-content: center; padding: 0 20px; } 
 }

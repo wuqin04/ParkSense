@@ -10,21 +10,23 @@ import os
 import socket
 from car import Car
 import database
+import requests
+import threading
 
 # Socket Setup
-MICROPYTHON_IP = "10.38.61.193"
+MICROPYTHON_IP = "172.27.247.193"
 MICROPYTHON_PORT = 8888 # change the port if it doesn't connect
 
-# TCP Client Setup
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(15)
+# # TCP Client Setup
+# sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# sock.settimeout(15)
 
-try:
-    sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))
-    print(f"✅ Connected to MicroPython at {MICROPYTHON_IP}:{MICROPYTHON_PORT}")
-except Exception as e:
-    print(f"⚠️ Connection failed: {e}")
-    sock = None
+# try:
+#     sock.connect((MICROPYTHON_IP, MICROPYTHON_PORT))
+#     print(f"✅ Connected to MicroPython at {MICROPYTHON_IP}:{MICROPYTHON_PORT}")
+# except Exception as e:
+#     print(f"⚠️ Connection failed: {e}")
+#     sock = None
 
 # OCR + Cam Setup
 reader = easyocr.Reader(['en'], gpu=True)
@@ -35,6 +37,14 @@ cap.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
 
 confirmed_plates = []
 font = cv.FONT_HERSHEY_SIMPLEX
+
+def send_to_esp(data, label=""):
+    try:
+        response = requests.post(f"http://{MICROPYTHON_IP}:{MICROPYTHON_PORT}/data", json=data, timeout=3)
+        print(f"📤 Sent to ESP ({label}): {data}")
+        print(f"📥 ESP response: {response.text}")
+    except Exception as e:
+        print(f"❌ Failed to send {label} data: {e}")
 
 # main loop
 frame_count = 0
@@ -95,7 +105,7 @@ while True:
         verify = max(set(recentresult), key=recentresult.count)
         frequency = recentresult.count(verify)
 
-        if frequency >= 5 and verify not in confirmed_plates:
+        if frequency >= 1 and verify not in confirmed_plates:
             confirmed_plates.append(verify)
             print(f"✅ Confirmed plate: {verify}")
 
@@ -130,14 +140,10 @@ while True:
             json_data = json.dumps(car_data)
 
             # send to MicroPython
-            if sock:
-                try:
-                    sock.send((json_data + "\n").encode())
-                    print("📤 Sent to Server:", json_data)
-                except Exception as e:
-                    print(f"⚠️ Failed to send: {e}")
-            else:
-                print("⚠️ No active socket connection.")
+            try:
+                threading.Thread(target=send_to_esp, args=(car_data, "entry"), daemon=True).start()
+            except Exception as e:
+                print(f"Failed to send data: {e}")
 
         elif frequency >= 5 and verify in confirmed_plates:
             # handle json data here
@@ -162,19 +168,14 @@ while True:
 
                 confirmed_plates.remove(verify)
 
-                exit_data = updated_data.copy()
-                print("✅ JSON updated:", json.dumps(exit_data, indent=4))
+                # exit_data = updated_data.copy()
+                print("✅ JSON updated:", json.dumps(updated_data, indent=4))
 
-                json_data = json.dumps(exit_data)
-
-                if sock:
-                    try:
-                        sock.send((json_data + "\n").encode())
-                        print("📤 Sent to Server:", json_data)
-                    except Exception as e:
-                        print(f"Failed to send the exit event {e}")
-                else:
-                    print("No active socket connection to send exit event.")
+                # json_data = json.dumps(exit_data)
+                try:
+                    threading.Thread(target=send_to_esp, args=(updated_data, "exit"), daemon=True).start()
+                except Exception as e:
+                    print(f"Failed to send the exit data: {e}")
             else:
                 print("Warning! Car not found in JSON.")
     else:
@@ -194,7 +195,3 @@ while True:
 
 cap.release()
 cv.destroyAllWindows()
-
-if sock:
-    sock.close()
-    print("🔌 Socket closed.")

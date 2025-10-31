@@ -1,6 +1,3 @@
-# THIS IS THE SERVER SIDE OF TCP SERVER WHICH WILL RECEIVE ANY DATA SENT BY CLIENT'S SIDE ON PYTHON
-# THIS PROGRAM SHOULD ALWAYS BE RUNNING FIRST TO TEST THE SERVER CONNECTION
-
 import network
 import socket
 import ujson
@@ -11,7 +8,7 @@ from lcd_i2c import LCD
 from ultrasonic import Ultrasonic
 from gate_control import Counter, number_plates
 from machine import I2C, Pin
-import configs as configs
+import configs
 import _thread
 
 def run_ultrasonic():        
@@ -67,14 +64,13 @@ else:
     print("❌ Failed to connect. Check SSID/password/band and try connecting again.")
     sys.exit()
 
-# TCP Server Setup
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("", configs.PORT))
+# Listen on port 80
+addr = socket.getaddrinfo('0.0.0.0', configs.PORT)[0][-1]
+server = socket.socket()
+server.bind(addr)
 server.listen(1)
-print(f"Listening on port {configs.PORT}...")
+print(f"Listening on {addr}...")
 
-# Variables initialise
-# parking slot map: 0 = empty, 1 = occupied
 parking_lot = {
         "A1": 0,
         "B1": 0,
@@ -104,41 +100,144 @@ entry_gate = Counter(configs.AIR_ENTRY_PIN, configs.SERVO_ENTRY_PIN, parking_lot
 exit_gate = Counter(configs.AIR_EXIT_PIN, configs.SERVO_EXIT_PIN, parking_lot,
                     configs.LCD_EXIT_PIN, configs.I2C_SCL_EXIT_PIN, configs.I2C_SDA_EXIT_PIN)
 
+def send_response(client, status=200, body="OK", content_type="text/plain"):
+    """Send an HTTP response with proper headers"""
+    body_bytes = body.encode() if isinstance(body, str) else body
+    headers = (
+        f"HTTP/1.1 {status} OK\r\n"
+        "Access-Control-Allow-Origin: *\r\n"
+        "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"
+        "Access-Control-Allow-Headers: Content-Type\r\n"
+        f"Content-Type: {content_type}\r\n"
+        f"Content-Length: {len(body_bytes)}\r\n"
+        "Connection: close\r\n\r\n"
+    )
+    client.send(headers)
+    if body:
+        client.send(body_bytes)
+
+
 print("Starting ultrasonic thread...")
 _thread.start_new_thread(run_ultrasonic, ())
+
+# main loop
 while True:
-    conn, addr = server.accept()
-    print(f"Connection from {addr}")
-    
+    client, addr = server.accept()
+    print("Client connected from", addr)
+
     try:
-        while True:
-            entry_gate.show_availability()
-            
-            while True:
-                data = conn.recv(1024)
-                if not data:
-                    print("Client disconnected.")
-                    break
-                try:
-                    info = ujson.loads(data)
-                except ValueError:
-                    print(f"Invalid JSON received.")
-                    continue
-                
-                print(f"Received data from connection: {info}")
-            
-                plate = info.get("car_plate")
-                # entry_gate logic
+        # Receive the first chunk of the request
+        req = client.recv(1024).decode()
+        if not req:
+            client.close()
+            continue
+
+        # Show availability (non-blocking)
+        entry_gate.show_availability()
+
+        # --- Respond to CORS preflight OPTIONS ---
+        if "OPTIONS" in req:
+            send_response(client, status=200)
+            client.close()
+            continue
+
+        # --- Handle POST /gate ---
+        if "POST /gate" in req:
+            try:
+                body = req.split("\r\n\r\n", 1)[1]
+                data = ujson.loads(body)
+                gate = data.get("gate")
+                action = data.get("action")
+                print(f"Received command: {action} {gate} gate")
+
+                if gate and action:
+                    if gate == "entrance" and action == "open":
+                        entry_gate.open_gate()
+                        print("Admin has opened the gate entrance.")
+                    elif gate == "entrance" and action == "close":
+                        entry_gate.close_gate()
+                        print("Admin has closed the gate entrance.")
+                    elif gate == "exit" and action == "open":
+                        exit_gate.open_gate()
+                        print("Admin has opened the gate exit.")
+                    elif gate == "exit" and action == "close":
+                        exit_gate.close_gate()
+                        print("Admin has closed the gate exit.")
+
+                    response = ujson.dumps({"status": "ok", "gate": gate, "action": action})
+                    send_response(client, status=200, body=response, content_type="application/json")
+                else:
+                    send_response(client, status=400, body="Invalid command")
+            except Exception as e:
+                print("Error:", e)
+                send_response(client, status=400, body="Invalid request")
+            finally:
+                client.close()
+            continue
+
+        # --- Handle POST /data ---
+        elif "POST /data" in req:
+            try:
+                # Split headers and partial body
+                parts = req.split("\r\n\r\n", 1)
+                headers = parts[0]
+                body = parts[1] if len(parts) > 1 else ""
+
+                # Extract Content-Length
+                content_length = 0
+                for line in headers.split("\r\n"):
+                    if "Content-Length" in line:
+                        content_length = int(line.split(":")[1].strip())
+                        break
+
+                # Read the rest of the body if incomplete
+                while len(body) < content_length:
+                    chunk = client.recv(1024)
+                    if not chunk:
+                        break
+                    body += chunk.decode()
+
+                print("📥 Full body received:", body)
+
+                # Parse JSON safely
+                data = ujson.loads(body)
+                print("📦 Parsed data:", data)
+
+                # ✅ Send HTTP response immediately
+                send_response(client, status=200, body="Data received")
+
+                # ✅ Allow time for TCP to flush the response
+                import time
+                time.sleep(0.1)
+
+                # ✅ Then close the socket
+                client.close()
+
+                # Process car plate logic (non-blocking)
+                plate = data.get("car_plate")
                 if plate not in number_plates:
                     entry_gate.car_entry(plate)
-                # exit_gate logic
                 else:
-                    fee = info.get("fee")
+                    fee = data.get("fee")
                     exit_gate.car_exit(plate, fee)
                     entry_gate.show_availability()
 
+            except Exception as e:
+                print("❌ Error parsing car data:", e)
+                send_response(client, status=400, body="Invalid JSON")
+                time.sleep(0.1)
+                client.close()
+            continue
+
+        else:
+            send_response(client, status=404, body="Not Found")
+            time.sleep(0.1)
+            client.close()
+
+
     except OSError as e:
-        print("Connection error:", e)
+        print(f"Connection error: {e}")
     finally:
-        conn.close()
+        client.close()
         print("Connection closed, waiting for next client...")
+
