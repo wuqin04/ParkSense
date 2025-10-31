@@ -1,8 +1,10 @@
+*{font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
+
+
 /* ---------- RESET & BASE ---------- */
 body {
   margin: 0;
   padding: 0;
-  font-family: "Inter", "Segoe UI", sans-serif;
   background: #f5f7fa;
   color: #1a1a1a;
   flex-direction: column;
@@ -180,12 +182,21 @@ section {
 
 /* ---------- FOOTER ---------- */
 footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #555;
   background: #e9ecef;
+  text-align: center;
+  padding: 1.5rem;
   border-top: 1px solid #d0d7de;
+  color: #555;
+}
+
+.social-links a {
+  color: #007bff;
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
 }
 
 /* ---------- HOVERS ---------- */

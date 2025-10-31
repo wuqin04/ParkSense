@@ -7,19 +7,19 @@ function homePage() {
 }
 
 function adminPanel() {
-    window.location.href = '../web/pages/admin.html';
+    window.location.href = '../../web/pages/admin.html';
 }
 
 function userPanel() {
-    window.location.href ='~/web/pages/user_panel.html';
+    window.location.href ='../../web/pages/user_panel.html';
 }
 
 function TrackCar() {
-        window.location.href ='../pages/track_car.html'
+        window.location.href ='../../web/pages/track_car.html'
 }
 
 function TrackFee(){
-        window.location.href ='../pages/user_check_fee.html'
+        window.location.href ='../../web/pages/user_check_fee.html'
 }
 
 async function checkFee(){
