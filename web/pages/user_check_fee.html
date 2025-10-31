@@ -1,84 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <link rel="stylesheet" href="../styles/user_check_fee.css" />
-  <script src="../logic/backend.js"></script>
-  <title>ParkSense</title>
-</head>
- 
-<header class="fee-header">
-   <h1>Parking Fee Checker</h1>
-   <p class="subtitle">Enter your parking details to view your current parking fee.</p>
-</header>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <link rel="stylesheet" href="../styles/user_check_fee.css" />
+      <script src="../logic/backend.js"></script>
+      <title>ParkSense</title>
+   </head>
+   <body>
+      <header class="fee-header">
+         <h1>Parking Fee Checker</h1>
+         <p class="subtitle">Enter your parking details to view your current parking fee.</p>
+      </header>
 
-<body>
-   <div class="center-page">
-      <div class="inputbox">
-         <label for="plate">Please enter your car plate  </label><br>
-         <input type="text" id="plate" name="plate">
-         <button class="enter-btn" onclick="checkFee()">Enter</button>
+      <div class="center-page"> 
+         <div class="inputbox">
+            <label for="plate">Please enter your car plate  </label><br>
+            <input type="text" id="plate" name="plate">
+            <button class="enter-btn" onclick="checkFee()">Enter</button>
+         </div>
       </div>
-   </div>
-   <main class="menu-container">
-      <section class="fee-panel">
-         <h2>Your current parking fee is:</h2>
-         <div class="displaybox" id="feeBox"></div>
 
-         <h2>Your car entry time is:</h2>
-         <div class="displaybox" id="entryBox"></div>
+      <main class="menu-container">
+         <section class="fee-panel">
+            <h2>Your current parking fee is:</h2>
+            <div class="displaybox" id="feeBox"></div>
 
-         <h2>Current time passed:</h2>
-         <div class="displaybox" id="durationBox"></div>
-      </section>
+            <h2>Your car entry time is:</h2>
+            <div class="displaybox" id="entryBox"></div>
 
-      <section class="fee-panel">
-         <table class="fee-table">
-            <tr>
-               <th>Vehicle Type</th>
-               <th>First 1 Hour</th>
-               <th>Next Hours</th>
-               <th>Max Per Day</th>
-            </tr>
-            <tr>
-               <td>Car</td>
-               <td>RM 2.00</td>
-               <td>RM 1.00 / hour</td>
-               <td>RM 12.00</td>
-            </tr>
-            <tr>
-               <td>Motorcycle</td>
-               <td>RM 1.00</td>
-               <td>RM 0.50 / hour</td>
-               <td>RM 5.00</td>
-            </tr>
-            <tr>
-               <td>Truck / Van</td>
-               <td>RM 3.00</td>
-               <td>RM 2.00 / hour</td>
-               <td>RM 18.00</td>
-            </tr>
-         </table>
+            <h2>Current time passed:</h2>
+            <div class="displaybox" id="durationBox"></div>
+         </section>
 
-         <p class="parking-disclaimer">
-            <strong>Note:</strong> Parking fees are calculated automatically based on entry time.  
-            Please ensure payment is completed before leaving the premises.  
-            Rates subject to change without prior notice.
-         </p>
-      </section>
-   </main>
-   <div class ='center-page'>
-      <div class="button-box">  
-         <button class="backto" onclick= "userPanel()" type="button">Back to user panel</button>
-         <button class="backto" onclick="homePage()" type="button">Home</button>
+         <section class="fee-panel">
+            <table class="fee-table">
+               <tr>
+                  <th>Vehicle Type</th>
+                  <th>First 1 Hour</th>
+                  <th>Next Hours</th>
+                  <th>Max Per Day</th>
+               </tr>
+               <tr>
+                  <td>Car</td>
+                  <td>RM 2.00</td>
+                  <td>RM 1.00 / hour</td>
+                  <td>RM 12.00</td>
+               </tr>
+               <tr>
+                  <td>Motorcycle</td>
+                  <td>RM 1.00</td>
+                  <td>RM 0.50 / hour</td>
+                  <td>RM 5.00</td>
+               </tr>
+               <tr>
+                  <td>Truck / Van</td>
+                  <td>RM 3.00</td>
+                  <td>RM 2.00 / hour</td>
+                  <td>RM 18.00</td>
+               </tr>
+            </table>
+
+            <p class="parking-disclaimer">
+               <strong>Note:</strong> Parking fees are calculated automatically based on entry time.  
+               Please ensure payment is completed before leaving the premises.  
+               Rates subject to change without prior notice.
+            </p>
+         </section>
+      </main>
+      <div class ='center-page'>
+         <div class="button-box">  
+            <button class="backto" onclick= "userPanel()" type="button">Back to user panel</button>
+            <button class="backto" onclick="homePage()" type="button">Home</button>
+         </div>
       </div>
-   </div>
-</body>
 
-<!-- FOOTER -->
-<footer>
-   <p>© 2025 ParkSense System — User Interface v1.0</p>
-</footer>
+   <!-- FOOTER -->
+      <footer>
+         <p>Created by:</p>
+         <div class="social-links">
+            <a href="https://www.instagram.com/wj_0419/" target="_blank">@wj_0419</a>
+            <a href="https://www.instagram.com/kian.foo/" target="_blank">@kian.foo</a>
+            <a href="https://www.instagram.com/minggg.0102/" target="_blank">@minggg.0102</a>
+            <a href="https://www.instagram.com/calvin_.05/" target="_blank">@calvin_.05</a>
+            <a href="https://www.instagram.com/yimingminyig/" target="_blank">@yimingminyig</a>
+         </div>
+         <p>© 2025 ParkSense System - User Interface v1.0</p>
+   </body>
 </html>
