@@ -131,8 +131,7 @@ body {
     gap: 15px;
     margin-top: 2%;
     margin-left: 10%;
-  }
-
+}
 
 .legend-box {
   display: flex;
@@ -173,20 +172,6 @@ footer {
   background: #e9ecef;
   border-top: 1px solid #d0d7de;
 }
-
-
-footer {
-  width: 100%;
-  position : absolute;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #555;
-  background: #e9ecef;
-  border-top: 1px solid #d0d7de;
-  bottom: -200px;
-}
-
 
 /* ✅ Phones/tablets PORTRAIT — rotate stage 90° */
 @media (max-width: 1000px) and (orientation: portrait) {
