@@ -11,9 +11,10 @@ from car import Car
 import database
 import requests
 import threading
+import micropython.configs as configs
 
 # Socket Setup
-MICROPYTHON_IP = "172.27.247.193"
+MICROPYTHON_IP = configs.MICROPYTHON_IP
 MICROPYTHON_PORT = 8888
 
 # OCR + Cam Setup
@@ -35,7 +36,6 @@ def send_to_esp(data, label=""):
         print(f"❌ Failed to send {label} data: {e}")
 
 def occupancy_listener():
-    import json
     HOST = "0.0.0.0"
     OCCUPANCY_PORT = 8890
 
@@ -44,6 +44,8 @@ def occupancy_listener():
     server.listen(3)
     print(f"Occupancy listener running on {HOST}:{OCCUPANCY_PORT}...")
 
+    database.default_occupancy()
+    
     while True:
         client, addr = server.accept()
         print("📡 Occupancy connection from", addr)
@@ -72,8 +74,21 @@ def occupancy_listener():
                 data = json.loads(body.decode())
                 print("📥 Received occupancy update:", data)
 
-                with open("occupancy.json", "w") as f:
-                    json.dump(data, f)
+                 # ✅ Load existing data
+                with open("occupancy.json", "r") as f:
+                    occupancy_data = json.load(f)
+
+                # ✅ Update the matching slot_id
+                updated = False
+                for slot in occupancy_data:
+                    if slot["slot_id"] == data["slot_id"]:
+                        slot["occupancy"] = data["occupancy"]
+                        updated = True
+                        break
+
+                if not updated:
+                    print(f"⚠️ Slot ID {data['slot_id']} not found — ignoring update.")
+                database.save_data(occupancy_data, path="occupancy.json")
 
                 client.send(b"HTTP/1.1 200 OK\r\nContent-Length: 8\r\n\r\nReceived")
 

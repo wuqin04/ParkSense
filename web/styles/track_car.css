@@ -76,11 +76,11 @@ body {
 
 
 .available {
-  background-color: #4CAF50;
+  background: #4caf50; /* green */
 }
 
 .occupied {
-  background-color: #E53935;
+  background: #e53935; /* red */
 }
 
 .gate {

@@ -15,7 +15,7 @@ import urequests
 def run_ultrasonic():        
     global parking_lot, parking_slots
     stable_count = [0, 0, 0, 0, 0]
-
+    
     while True:
         distance_list = [parking_slot.measure() for parking_slot in parking_slots]
         # print("\n📏 Distances (cm):", ["{:.1f}".format(d) for d in distance_list])
@@ -33,7 +33,7 @@ def run_ultrasonic():
                         parking_slots[i].toggle_led(configs.LED_OFF)
                         data = {
                             "slot_id":  i,
-                            "occupied": raw_status[i]
+                            "occupancy": raw_status[i]
                         }
                         try:
                             response = urequests.post(f"http://{configs.PYTHON_SERVER_IP}:8890/update_status", json=data)
@@ -46,7 +46,7 @@ def run_ultrasonic():
                         parking_slots[i].toggle_led(configs.LED_ON)
                         data = {
                             "slot_id":  i,
-                            "occupied": raw_status[i]
+                            "occupancy": raw_status[i]
                         }
                         try:
                             response = urequests.post(f"http://{configs.PYTHON_SERVER_IP}:8890/update_status", json=data)
@@ -82,6 +82,8 @@ if wlan.isconnected():
 else:
     print("❌ Failed to connect. Check SSID/password/band and try connecting again.")
     sys.exit()
+
+MICROPYTHON_IP = wlan.ifconfig()[0]
 
 # Listen on corresponding port
 addr = socket.getaddrinfo('0.0.0.0', configs.PORT)[0][-1]
@@ -226,7 +228,6 @@ while True:
                 send_response(client, status=200, body="Data received")
 
                 # ✅ Allow time for TCP to flush the response
-                import time
                 time.sleep(0.1)
 
                 # ✅ Then close the socket

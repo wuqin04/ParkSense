@@ -1,7 +1,22 @@
-# ALL CONSTANTS SETUP HERE
+import main
+import socket
 
+def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # Doesn't have to be reachable
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = "127.0.0.1"
+    finally:
+        s.close()
+    return ip
+# ALL CONSTANTS SETUP HERE
 # CONSTANTS 
-PYTHON_SERVER_IP = "172.27.247.189"
+PYTHON_SERVER_IP = get_local_ip()
+PYTHON_SERVER_PORT = 9999
+MICROPYTHON_IP = main.MICROPYTHON_IP
 PORT = 8888
 MAX_CAR = 5
 TOTAL_SLOTS = 5

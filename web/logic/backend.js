@@ -220,30 +220,32 @@ if (window.location.pathname.includes("admin.html")) {
 
 /* Function for car tracking panel*/
 
-function randomizeSlots() {
-  const slots = document.querySelectorAll('.slot');
+async function updateSlots() {
+    try {
+        const response = await fetch("../../occupancy.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-  slots.forEach(slot => {
-    // Randomly decide if slot is occupied (true/false)
-    const isOccupied = Math.random() < 0.5; // 50% chance
+        const data = await response.json();
+        const slots = data.slots || [];
 
-    if (isOccupied) {
-      slot.classList.remove('available');
-      slot.classList.add('occupied');
-      slot.style.backgroundColor = 'red';
-    } else {
-      slot.classList.remove('occupied');
-      slot.classList.add('available');
-      slot.style.backgroundColor = 'green';
+        slots.forEach(slot => {
+            const el = document.querySelector(`#slot${slot.slot_id}`);
+            if (!el) return;
+            const occupancy = slot.occupancy === 1;
+            if (occupancy) {
+            el.classList.remove('available');
+            el.classList.add('occupied');
+            } else {
+            el.classList.remove('occupied');
+            el.classList.add('available');
+            }
+        });
+    } catch (err) {
+        console.error("Failed to update slots:", err);
     }
-  });
 }
 
-setInterval(randomizeSlots, 2000);
-// Run once immediately on load
-randomizeSlots();
-
-
-
+setInterval(updateSlots, 3000);
+updateSlots();
 
 

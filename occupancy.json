@@ -1,1 +1,24 @@
-{"occupied": 0, "slot_id": 2}
+{
+    "slots": [
+        {
+            "slot_id": 1,
+            "occupancy": 0
+        },
+        {
+            "slot_id": 2,
+            "occupancy": 0
+        },
+        {
+            "slot_id": 3,
+            "occupancy": 0
+        },
+        {
+            "slot_id": 4,
+            "occupancy": 0
+        },
+        {
+            "slot_id": 5,
+            "occupancy": 0
+        }
+    ]
+}
