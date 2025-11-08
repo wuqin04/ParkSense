@@ -161,7 +161,7 @@ while True:
         verify = max(set(recentresult), key=recentresult.count)
         frequency = recentresult.count(verify)
 
-        if frequency >= 1 and verify not in confirmed_plates:
+        if frequency >= 5 and verify not in confirmed_plates:
             confirmed_plates.append(verify)
             print(f"✅ Confirmed plate: {verify}")
 
@@ -178,15 +178,28 @@ while True:
             car_data = car.to_dict()
 
             found = False
-            
+
             for existing_car in all_data["cars"]:
                 if existing_car["car_plate"] == car_data["car_plate"]:
-                    existing_car.update(car_data)    
                     found = True
+                    # Check if this car already exited → allow re-entry
+                    if existing_car.get("exit_time"):
+                        print(f"🔁 {verify} re-entering (previously exited).")
+                        existing_car.update(car_data)
+                    else:
+                        print(f"⚠️ {verify} is already parked — ignoring duplicate entry.")
                     break
 
             if not found:
-                all_data["cars"].append(car_data)
+                # Count only active cars (without exit_time)
+                active_cars = [c for c in all_data["cars"] if c.get("exit_time") is None]
+
+                if len(active_cars) < 5:
+                    all_data["cars"].append(car_data)
+                    print(f"✅ Added new car {verify}. Active count: {len(active_cars)+1}/5")
+                else:
+                    print("🚫 Parking full (5 active cars). Entry denied.")
+                    continue  # skip saving if lot is full
 
             database.save_data(all_data, file_path)
 
