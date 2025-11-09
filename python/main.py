@@ -11,6 +11,16 @@ from car import Car
 import database
 import requests
 import threading
+import sys
+import os
+
+# Get the parent directory of the current file
+parent_dir = os.path.dirname(os.path.dirname(__file__))
+
+# Add parent directory to sys.path
+sys.path.append(parent_dir)
+
+# Now you can import
 import micropython.configs as configs
 
 # Socket Setup

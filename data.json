@@ -3,26 +3,26 @@
         {
             "car_plate": "ABC1234",
             "entry_time": "2025-10-27 08:30:15",
-            "exit_time": "2025-10-27 10:45:20",
-            "fee": 20
+            "exit_time": null,
+            "fee": 0
         },
         {
             "car_plate": "XYZ5678",
             "entry_time": "2025-10-27 09:10:45",
-            "exit_time": "2025-10-27 11:00:00",
-            "fee": 4.0
+            "exit_time": null,
+            "fee": 0
         },
         {
             "car_plate": "JJK9988",
             "entry_time": "2025-10-27 07:50:00",
-            "exit_time": "2025-10-27 12:15:30",
-            "fee": 7.25
+            "exit_time": null,
+            "fee": 0
         },
         {
             "car_plate": "PLT1122",
             "entry_time": "2025-10-27 13:05:00",
-            "exit_time": "2025-10-27 14:20:00",
-            "fee": 3.0
+            "exit_time": null,
+            "fee": 0
         },
         {
             "car_plate": "LyaITi6",

@@ -1,4 +1,3 @@
-import main
 import socket
 
 def get_local_ip():
@@ -12,11 +11,12 @@ def get_local_ip():
     finally:
         s.close()
     return ip
+
 # ALL CONSTANTS SETUP HERE
 # CONSTANTS 
 PYTHON_SERVER_IP = get_local_ip()
 PYTHON_SERVER_PORT = 9999
-MICROPYTHON_IP = main.MICROPYTHON_IP
+MICROPYTHON_IP = 180.11
 PORT = 8888
 MAX_CAR = 5
 TOTAL_SLOTS = 5
