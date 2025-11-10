@@ -202,8 +202,8 @@ Special thanks to:
 [MicroPython-badge]: https://img.shields.io/badge/MicroPython-3776AB?style=for-the-badge&logo=python&logoColor=white
 [MicroPython-url]: https://www.micropython.org/
 [JavaScript-badge]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-[JavaScript-url]:
+[JavaScript-url]:https://www.javascript.com/
 [HTML-badge]:https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-[HTLM-url]:
+[HTLM-url]: https://html.com/
 [CSS-badge]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-[CSS-url]: 
+[CSS-url]: https://web.dev/css
