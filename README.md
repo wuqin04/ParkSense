@@ -20,10 +20,7 @@
   <p align="center">
     A simple yet powerful desktop tool to help you organize, clean, and manage your files efficiently.
     <br />
-    <a href="https://github.com/wuqin04/ParkSense"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/wuqin04/ParkSense">View Demo</a>
     ·
     <a href="https://github.com/wuqin04/ParkSense/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
