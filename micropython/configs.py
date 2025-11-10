@@ -1,26 +1,12 @@
-import socket
-
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # Doesn't have to be reachable
-        s.connect(("8.8.8.8", 80))
-        ip = s.getsockname()[0]
-    except Exception:
-        ip = "127.0.0.1"
-    finally:
-        s.close()
-    return ip
-
 # ALL CONSTANTS SETUP HERE
 # CONSTANTS 
-PYTHON_SERVER_IP = get_local_ip()
-PYTHON_SERVER_PORT = 9999
-MICROPYTHON_IP = 180.11
-PORT = 8888
+PYTHON_SERVER_IP = "10.169.100.189"
+PYTHON_SERVER_PORT = 8000
+MICROPYTHON_IP = "10.169.100.193"
+MICROPYTHON_PORT = 8888
 MAX_CAR = 5
 TOTAL_SLOTS = 5
-SSID = "Ming's"
+SSID = "yiming"
 PASSWORD = "88888888"
 
 # PIN SETUP
@@ -58,7 +44,7 @@ ECHO_PIN_5 = 7
 
 # ULTRASONIC CONFIGS
 INITIAL_STATUS      = [0, 0, 0, 0, 0]
-DISTANCE_THRESHOLD  = 10.2 # in cm
+DISTANCE_THRESHOLD  = 12.2 # in cm
 STABLE_LIMIT        = 5
 
 # LED SETUP
@@ -74,5 +60,3 @@ LED_OFF = 0
 # DEBUG SETUP
 def Debug(msg):
     print(f"[DEBUGGER]: {msg}")
-
-

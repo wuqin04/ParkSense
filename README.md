@@ -1,121 +1,212 @@
-# 🚗 Smart Parking System  
-**Team Project for Smart City Innovation Challenge**
+<!-- Improved compatibility of back to top link -->
+<a id="readme-top"></a>
+
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![License][license-shield]][license-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/wuqin04/ParkSense">
+    <img src="assets/logo.png" alt="Logo" width="100" height="100">
+  </a>
+
+  <h3 align="center">ParkSense</h3>
+
+  <p align="center">
+    A simple yet powerful desktop tool to help you organize, clean, and manage your files efficiently.
+    <br />
+    <a href="https://github.com/wuqin04/ParkSense"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/wuqin04/ParkSense">View Demo</a>
+    ·
+    <a href="https://github.com/wuqin04/ParkSense/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    ·
+    <a href="https://github.com/wuqin04/ParkSense/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
 
 ---
 
-## 🏙️ Project Overview
-The **Smart Parking System** aims to enhance urban mobility and parking efficiency by automating parking management using **IoT sensors**, **computer vision (OCR)**, and **real-time data processing**.  
-Our solution provides a **seamless parking experience** by automating slot detection, car plate recognition, and fee calculation — reducing human intervention, congestion, and time wasted searching for parking.
+## 📖 About The Project
+
+![Website Screenshot][website-screenshot]
+
+**ParkSense** is a desktop application that helps users quickly organize files and remove duplicates with ease.  
+It was designed with **students, professionals, and daily PC users** in mind — anyone who wants a cleaner workspace without complex setup.
+
+### ✨ Features
+- 📁 **File Organizer** – Automatically group and sort files by type, date, or custom rules.  
+- 🔍 **Duplicate Scanner** – Detect and remove duplicate files safely.  
+- 🌙 **Dark/Light Themes** – Choose your preferred appearance mode.  
+- ⚙️ **Custom Configuration** – Save your preferences for future use.  
+- 🚀 **Lightweight** – Fast performance with a minimal interface.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## 💡 Creativity & Innovation
-Our system integrates **IoT and computer vision** in a compact, cost-efficient design:
+## 🛠️ Built With
 
-- Combines **ultrasonic sensors**, **LED indicators**, and **OCR-based car plate recognition**.  
-- Provides **real-time availability updates** before entry.  
-- Suggests the **nearest available slot** automatically.  
-- Uses a **lightweight Python socket connection** to stream camera data efficiently, overcoming the frame drops common with USB webcams when running **EasyOCR**.  
-- Implements **multithreading in MicroPython** to handle ultrasonic logic concurrently, allowing each sensor to operate in the background without interrupting other processes.  
-- Introduces a **car plate–based eWallet system**, where users’ parking fees are deducted automatically from their account balance linked to their car plate.  
-  - If the balance is insufficient, the user can pay via card as an alternative.  
-- Designed to be **scalable and modular**, allowing future integration with mobile apps or payment gateways.
+* [![Python][Python-badge]][Python-url]
+* [![MicroPython][MicroPython-badge]][MicroPython-url]
+* [![JavaScript][JavaScript-badge]][JavaScript-url]
+* [![HTML][HTML-badge]][HTML-url]
+* [![CSS][CSS-badge]][CSS-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## 🌆 Relevance to Smart City Theme
-Aligned with **Smart City principles**:
+## 🚀 Getting Started
 
-- **Sustainability**: Reduces idle engine time and CO₂ emissions by minimizing time spent searching for parking.  
-- **Efficiency**: Automated processes minimize human management and improve space utilization.  
-- **Convenience**: Enables **cashless and cardless** parking through car plate–linked payment.  
-- **Safety**: Reduces congestion at parking entrances and exits.  
+Follow these steps to set up **ParkSense** locally.
 
-This system directly supports **urban automation, traffic efficiency**, and **digital transformation** goals.
+### 📋 Prerequisites
 
----
+- Python 3.13 or newer
+- pip package manager  
 
-## ⚙️ Technical Implementation
+To check your version:
+```sh
+python --version
+pip --version
+```
 
-### 1. System Flow
-1. **Before Entry:**
-   - A display screen shows the **current available parking slots**.
-   - The camera scans the **car plate** using **OCR**.
-   - If slots are available, the system:
-     - Records the car data in the **database**.
-     - Suggests the **nearest available slot**.
-     - Opens the **gate automatically**.
+### ⚙️ Installation
 
-2. **Inside the Car Park:**
-   - Each parking slot has an **ultrasonic sensor** to detect car presence.
-   - **LED indicators** show:
-     - 🟢 Green Light Enable → Slot available  
-     - 🟢 Green Light Disable → Slot occupied  
-   - Data updates in real time to maintain accurate occupancy records.
+#### Option 1 — From Source
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/wuqin04/ParkSense.git
+   cd ParkSense
+   ```
 
-3. **Exiting the Car Park:**
-   - The **camera scans** the car plate again to match the entry record.
-   - The system **calculates the total parking fee** based on duration.  
-   - If the car plate is linked to a wallet account:
-     - The **fee is automatically deducted** from the car plate’s balance.  
-   - If the balance is **insufficient**, the user can **pay by card** at the gate.  
-   - The system then **updates the database**, prints a receipt (if needed), and **opens the exit gate**.
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
----
+3. **Run the application**
+   ```bash
+   python main.py
+   ```
 
-### 2. Hardware Components
-- **Laptop (Client)** – runs Python and OCR to send recognized plate data to Raspberry Pi 5.  
-- **Laptop Webcam** – captures live feed for OCR-based plate recognition.  
-- **Raspberry Pi 5 (Server)** – runs MicroPython to handle incoming data and coordinate devices.  
-- **Raspberry Pi Pico W** – manages IoT sensors and LED indicators through wireless communication.  
-- **Servo Motor** – acts as a gate controller for entry/exit operations.  
-- **LCD 1602 I2C** – displays parking availability, welcome/exit messages, and total fee information.  
-- **Active Infrared Sensor** – detects vehicles entering and exiting the car park.  
-- **Ultrasonic Sensors** – detect car presence in individual parking slots.  
-- **LED Indicators** – visually show slot availability.  
+#### Option 2 — From Release (Recommended for Most Users)
+1. Go to the **[Releases page](https://github.com/wuqin04/ParkSense/releases)**.  
+2. Download the latest version of **ParkSense** for your operating system (e.g. `ParkSense_v1.0.0.exe`).  
+3. Run the installer or executable — no setup required.  
+
+> 💡 Ideal for students or non-technical users who just want to use ParkSense right away.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-### 3. Software & Communication
-- **Python (OpenCV + EasyOCR)** for plate recognition.  
-- **MicroPython (on Pico W)** for IoT and sensor management.  
-- **Multithreading in MicroPython** is used to run the **ultrasonic detection logic** continuously in parallel threads.  
-  - This ensures the sensors collect data in real time without interrupting LED updates or socket communication.  
-- **Socket Communication** between the laptop (Python client) and Raspberry Pi 5 (MicroPython server) ensures **real-time data exchange** and synchronization between devices.  
-- This design was chosen because **USB webcams cause frame drops and high latency** during OCR processing.  
-- Using the **laptop webcam via socket connection** achieves **smoother frame rates**, **higher accuracy**, and **better synchronization** with IoT updates.
+## 💡 Usage
+
+Once launched, you can:
+- Select a folder to organize or scan.
+- Use the **Organizer tab** to sort files by type or date.
+- Use the **Duplicate Scanner** to detect and delete duplicate files.
+- View all logs and results directly inside the app.
+
+> 💡 **Tip:** Customize appearance and behavior from the config menu.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## 🌍 Feasibility & Practical Impact
-- **Low-cost prototype** using readily available components.  
-- **Cashless and cardless payment system** via car plate wallet adds real-world practicality and scalability.  
-- **Scalable** to larger parking areas or multi-level facilities.  
-- **Modular design** allows easy integration with cloud services, banking APIs, or mobile apps.  
-- **Environmentally friendly**: reduces fuel waste, emissions, and urban congestion.  
+## 🗺️ Roadmap
+
+- [x] File Organizer  
+- [x] Duplicate Scanner  
+- [ ] Pro Features (Batch Cleanup, Smart Sort)  
+- [ ] Cloud Sync  
+- [ ] Multi-language Support  
+
+See the [open issues](https://github.com/wuqin04/ParkSense/issues) for all proposed features and known issues.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## 🗣️ Presentation & Communication
-Our presentation will clearly demonstrate:
+## 🤝 Contributing
 
-- Real-time car plate scanning and gate operation.  
-- Dynamic slot availability updates through LED indicators.  
-- Automated payment using the car plate wallet system.  
-- Live database logging for entry, exit, and transaction records.  
-- A clean visual dashboard to illustrate system logic and data flow.  
+Contributions make the open-source community amazing!  
+If you’d like to contribute:
 
-Each team member will explain one subsystem (OCR, IoT sensors, communication, payment, database, and interface), ensuring **clarity, confidence, and technical depth**.
+1. Fork the project  
+2. Create your Feature Branch (`git checkout -b feature/NewFeature`)  
+3. Commit your changes (`git commit -m 'Add new feature'`)  
+4. Push to your branch (`git push origin feature/NewFeature`)  
+5. Open a Pull Request  
+
+⭐ Don’t forget to **star** the project if you like it!
+
+<a href="https://github.com/wuqin04/ParkSense/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=wuqin04/ParkSense" alt="Contributors"/>
+</a>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## 🤝 Teamwork & Documentation
-- Work is divided by **functionality** (camera/OCR, sensors, payment, database, server communication, presentation).  
-- Collaboration is managed through **GitHub**, ensuring version control and consistent updates.  
-- Documentation includes **system diagrams**, **code explanations**, and **setup instructions** for reproducibility and further development.
+## 📄 License
+
+Distributed under the **Apache License 2.0**. See the [`LICENSE`](LICENSE) file for more details.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## ✅ Summary
-The **Smart Parking System** embodies the Smart City vision through **automation**, **cashless payment**, and **real-time monitoring**.  
-By integrating IoT with intelligent image processing, **multithreaded sensor control**, and a **car plate–linked eWallet**, our system enhances convenience, reduces traffic, and contributes to a more sustainable urban environment.
+## 📬 Contact
+
+**Jimmy Wu**  
+📧 wuqin419@gmail.com  
+🔗 [Project Link](https://github.com/wuqin04/ParkSense)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 🙏 Acknowledgments
+
+Special thanks to:
+* [Python.org](https://www.python.org/)
+* [FadeAlpha](https://github.com/Fadealpha)
+* [Ming](https://github.com/minglau1)
+* [YiMing](http://instagram.com/yimingminyig/)
+* [Calvin](https://www.instagram.com/calvin_.05/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/wuqin04/ParkSense.svg?style=for-the-badge
+[contributors-url]: https://github.com/wuqin04/ParkSense/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/wuqin04/ParkSense.svg?style=for-the-badge
+[forks-url]: https://github.com/wuqin04/ParkSense/network/members
+[stars-shield]: https://img.shields.io/github/stars/wuqin04/ParkSense.svg?style=for-the-badge
+[stars-url]: https://github.com/wuqin04/ParkSense/stargazers
+[issues-shield]: https://img.shields.io/github/issues/wuqin04/ParkSense.svg?style=for-the-badge
+[issues-url]: https://github.com/wuqin04/ParkSense/issues
+[license-shield]: https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=for-the-badge
+[license-url]: https://www.apache.org/licenses/LICENSE-2.0
+[website-screenshot]: assets/website.png
+[product-image]: assets/product.png
+[award-photo]: assets/award.png
+[Python-badge]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[Python-url]: https://www.python.org/
+[MicroPython-badge]: https://img.shields.io/badge/MicroPython-3776AB?style=for-the-badge&logo=python&logoColor=white
+[MicroPython-url]: https://www.micropython.org/
+[JavaScript-badge]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[JavaScript-url]:
+[HTML-badge]:https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[HTLM-url]:
+[CSS-badge]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[CSS-url]: 

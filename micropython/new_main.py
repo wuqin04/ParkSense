@@ -11,45 +11,43 @@ from machine import I2C, Pin
 import configs
 import _thread
 import urequests
+from collections import OrderedDict
 
 lock = _thread.allocate_lock()
 
 # ----- Ultrasonic thread -----
 def run_ultrasonic():
     global parking_lot, parking_slots
-    stable_count = [0] * 5
+    stable_count = [0, 0, 0, 0, 0]
     
     while True:
         distance_list = [parking_slot.measure() for parking_slot in parking_slots]
         raw_status = [1 if d <= configs.DISTANCE_THRESHOLD else 0 for d in distance_list]
 
         for i, key in enumerate(parking_lot.keys()):
-            with lock:
-                prev_status = configs.INITIAL_STATUS[i]
-            if raw_status[i] != prev_status:
+            if raw_status[i] != parking_lot[key]:
                 stable_count[i] += 1
                 print(f"{key}: Unstable ({stable_count[i]}/{configs.STABLE_LIMIT})")
 
                 if stable_count[i] >= configs.STABLE_LIMIT:
                     with lock:
-                        if raw_status[i] - configs.INITIAL_STATUS[i] == 1 and parking_lot[key] == 0:
-                            parking_lot[key] = 1
-                        elif raw_status[i] - configs.INITIAL_STATUS[i] == -1 and parking_lot[key] == 1:
-                            parking_lot[key] = 0
-                        configs.INITIAL_STATUS[i] = raw_status[i]
-
+                        parking_lot[key] = raw_status[i]
+                    
                     # Toggle LED
-                    parking_slots[i].toggle_led(configs.LED_OFF if parking_lot[key] else configs.LED_ON)
+                    if parking_lot[key] == 1:
+                        parking_slots[i].toggle_led(configs.LED_OFF)
+                    else:
+                        parking_slots[i].toggle_led(configs.LED_ON)
 
                     # Send status to server
-                    data = {"slot_id": i, "occupancy": raw_status[i]}
+                    data = {"slot_id": i+1, "occupancy": raw_status[i]}
                     try:
                         response = urequests.post(f"http://{configs.PYTHON_SERVER_IP}:8890/update_status", json=data)
                         response.close()
                     except Exception as e:
                         print(f"Failed to send: {e}")
 
-                    print(f"{key}: {'🚗 Car Parked' if parking_lot[key] else '🏁 Car Left'}")
+                    print(f"{key}: {'🚗 Car Parked' if parking_lot[key] == 1 else '🏁 Car Left'}")
                     stable_count[i] = 0
             else:
                 stable_count[i] = 0
@@ -57,7 +55,13 @@ def run_ultrasonic():
 
 
 # ----- Initialize ultrasonic & gates -----
-parking_lot = {k: 0 for k in ["A1","B1","C1","D1","E1"]}
+parking_lot = {
+    "A1": 0,
+    "B1": 0,
+    "C1": 0,
+    "D1": 0,
+    "E1": 0
+}
 available_slots = 5
 nearest_slot = "A1"
 
@@ -124,7 +128,7 @@ server.listen(5)
 print("Server listening...")
 
 while True:
-
+    # Show availability (non-blocking)
     entry_gate.show_availability()
     client, addr = server.accept()
     print("Client connected from", addr)

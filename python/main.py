@@ -25,7 +25,7 @@ import micropython.configs as configs
 
 # Socket Setup
 MICROPYTHON_IP = configs.MICROPYTHON_IP
-MICROPYTHON_PORT = 8888
+MICROPYTHON_PORT = configs.MICROPYTHON_PORT
 
 # OCR + Cam Setup
 reader = easyocr.Reader(['en'], gpu=True)
@@ -39,9 +39,17 @@ font = cv.FONT_HERSHEY_SIMPLEX
 
 def send_to_esp(data, label=""):
     try:
-        response = requests.post(f"http://{MICROPYTHON_IP}:{MICROPYTHON_PORT}/data", json=data, timeout=3)
+        # Convert Python dict to JSON string
+        payload = json.dumps(data)
+        headers = {"Content-Type": "application/json"}
+
+        # Send using urequests
+        response = requests.post(f"http://{MICROPYTHON_IP}:{MICROPYTHON_PORT}/data",
+                                  data=payload,
+                                  headers=headers)
         print(f"📤 Sent to ESP ({label}): {data}")
         print(f"📥 ESP response: {response.text}")
+        response.close()
     except Exception as e:
         print(f"❌ Failed to send {label} data: {e}")
 
@@ -90,7 +98,7 @@ def occupancy_listener():
 
                 # ✅ Update the matching slot_id
                 updated = False
-                for slot in occupancy_data:
+                for slot in occupancy_data["slots"]:
                     if slot["slot_id"] == data["slot_id"]:
                         slot["occupancy"] = data["occupancy"]
                         updated = True

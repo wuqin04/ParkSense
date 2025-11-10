@@ -90,7 +90,7 @@ async function checkFee(){
 }
 
 async function sendGateCommand(gate, action){
-    const MICROPYTHON_IP = "172.27.247.193"; // pico IP
+    const MICROPYTHON_IP = "10.169.100.193"; // pico IP
     const PORT = 8888; // HTTP port
     const buttons = document.querySelectorAll("button");
     buttons.forEach(b => b.disabled = true); //disable button when gate opening
