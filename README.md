@@ -204,6 +204,6 @@ Special thanks to:
 [JavaScript-badge]: https://img.shields.io/badge/JavaScript-3776AB?style=for-the-badge&logo=javascript&logoColor=white
 [JavaScript-url]:https://www.javascript.com/
 [HTML-badge]:https://img.shields.io/badge/HTML-3776AB?style=for-the-badge&logo=html5&logoColor=white
-[HTLM-url]: https://html.com/
+[HTML-url]: https://html.com/
 [CSS-badge]: https://img.shields.io/badge/CSS-3776AB?style=for-the-badge&logo=css&logoColor=white
 [CSS-url]: https://web.dev/css
