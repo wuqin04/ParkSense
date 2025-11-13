@@ -7,7 +7,7 @@ function homePage() {
 }
 
 function adminPanel() {
-    window.location.href = './pages/admin.html';
+    window.location.href = 'pages/admin.html';
 }
 
 function userPanel() {
@@ -15,11 +15,11 @@ function userPanel() {
 }
 
 function TrackCar() {
-        window.location.href = 'pages/track_car.html'
+        window.location.href = 'track_car.html'
 }
 
 function TrackFee(){
-        window.location.href = 'pages/user_check_fee.html'
+        window.location.href = 'user_check_fee.html'
 }
 
 async function checkFee(){
