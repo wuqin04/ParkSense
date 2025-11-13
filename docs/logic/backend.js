@@ -3,23 +3,23 @@ function goBack() {
 }
 
 function homePage() {
-    window.location.href = '../index.html';
+    window.location.href = 'index.html';
 }
 
 function adminPanel() {
-    window.location.href = '../../docs/pages/admin.html';
+    window.location.href = 'pages/admin.html';
 }
 
 function userPanel() {
-    window.location.href ='../../docs/pages/user_panel.html';
+    window.location.href =  'pages/user_panel.html';
 }
 
 function TrackCar() {
-        window.location.href ='../../docs/pages/track_car.html'
+        window.location.href = 'pages/track_car.html'
 }
 
 function TrackFee(){
-        window.location.href ='../../docs/pages/user_check_fee.html'
+        window.location.href = 'pages/user_check_fee.html'
 }
 
 async function checkFee(){
